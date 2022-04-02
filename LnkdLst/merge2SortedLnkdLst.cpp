@@ -71,8 +71,8 @@ node* merge2SortedLnkdLst(node* &head1,node* &head2)
     node* temp3 = dummy;
     // dummy->data = NULL;
     
-    int l1 = lengthOfLnkdLst(head1);
-    int l2 = lengthOfLnkdLst(head2);
+    // int l1 = lengthOfLnkdLst(head1);  --> we can't use this length approach because if length of both LnkdLst are same than
+    // int l2 = lengthOfLnkdLst(head2);      last node won't be considered. So better to use print all remaining node approach   
 
     node* temp1 = head1;
     node* temp2 = head2;
@@ -93,28 +93,28 @@ node* merge2SortedLnkdLst(node* &head1,node* &head2)
         temp3 = temp3->next;
     }
 
-    // while(temp1 != NULL)
-    // {
-    //     temp3->next = temp1;
-    //     temp3 = temp3->next;
-    //     temp1 = temp1->next;
-    // }
-
-    // while(temp2 != NULL)
-    // {
-    //     temp3->next = temp2;
-    //     temp3 = temp3->next;
-    //     temp2 = temp2->next;
-    // }
-
-    if(l1>l2)
+    while(temp1 != NULL)
     {
         temp3->next = temp1;
+        temp3 = temp3->next;
+        temp1 = temp1->next;
     }
-    else
+
+    while(temp2 != NULL)
     {
         temp3->next = temp2;
+        temp3 = temp3->next;
+        temp2 = temp2->next;
     }
+
+    // if(l1>l2)
+    // {
+    //     temp3->next = temp1;
+    // }
+    // else
+    // {
+    //     temp3->next = temp2;
+    // }
 
     return dummy->next;
 }
