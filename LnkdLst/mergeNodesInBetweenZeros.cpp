@@ -50,6 +50,8 @@ void printLnkdLst(node* head)
 
     cout<<"NULL"<<endl;
 }
+/*
+Code-1:
 
 node* mergeNodes(node* &head)
 {
@@ -86,6 +88,33 @@ node* mergeNodes(node* &head)
     }
 
     return newHead;
+}
+*/
+
+// Code- 2
+node* mergeNodes(node* &head)
+{
+    node* cr = head->next;
+    node* prev = head->next;
+    int sum = 0;
+
+    while(cr != NULL)
+    {
+        while(cr->data != 0)
+        {
+            sum += cr->data;
+            cr = cr->next;
+        }
+
+        cr = cr->next;
+        prev->data = sum;
+        sum = 0;
+        prev->next = cr;
+        prev = prev->next;
+    }
+    
+
+    return head->next;
 }
 
 int main()
