@@ -54,44 +54,68 @@ void printLnkdLst(node* head)
 
 node* oddEvenList(node* head)
 {
-    vector<int> v;
-    vector<int> odd;
-    vector<int> even;
+    node* odd = head;
+    node* even = head->next;
+    node* evenstrt = head->next;
 
-    node* temp = head;
-
-    while(temp != NULL)
+    if(head == NULL || head->next == NULL || head->next->next == NULL)
     {
-        v.push_back(temp->data);
-        temp = temp->next;
-    }
-    
-    for(int i = 1 ; i <= v.size() ; i++)
-    {
-        if(i%2 == 0)
-        {
-            even.push_back(v[i-1]);
-        }
-        else
-        {
-            odd.push_back(v[i-1]);
-        }
+        return head;
     }
 
-    node* newHead = NULL;
-
-    for(int i = 0 ; i< odd.size(); i++)
+    while(odd->next != NULL && even->next != NULL)
     {
-        insertAtTail(newHead,odd[i]);
+        odd->next = even->next;
+        even->next = odd->next->next;
+        odd = odd->next;
+        even = even->next;
     }
 
-    for(int i = 0 ; i< even.size(); i++)
-    {
-        insertAtTail(newHead,even[i]);
-    }
+    odd->next = evenstrt;
 
-    return newHead;
+    return head;
 }
+
+// node* oddEvenList(node* head)
+// {
+//     vector<int> v;
+//     vector<int> odd;
+//     vector<int> even;
+
+//     node* temp = head;
+
+//     while(temp != NULL)
+//     {
+//         v.push_back(temp->data);
+//         temp = temp->next;
+//     }
+    
+//     for(int i = 1 ; i <= v.size() ; i++)
+//     {
+//         if(i%2 == 0)
+//         {
+//             even.push_back(v[i-1]);
+//         }
+//         else
+//         {
+//             odd.push_back(v[i-1]);
+//         }
+//     }
+
+//     node* newHead = NULL;
+
+//     for(int i = 0 ; i< odd.size(); i++)
+//     {
+//         insertAtTail(newHead,odd[i]);
+//     }
+
+//     for(int i = 0 ; i< even.size(); i++)
+//     {
+//         insertAtTail(newHead,even[i]);
+//     }
+
+//     return newHead;
+// }
 
 int main()
 {
