@@ -89,18 +89,29 @@ class Solution
             count++;
         }
 
+        if(index.size()<2)
+        {
+            v.push_back(-1);
+            v.push_back(-1);
+
+            return v;
+        }
+
         int mini = INT_MAX;
         int max = index[index.size()-1] - index[0];
 
-        for(int i = 0 ; i < index.size(); i++)
-        {
-            for(int j = i+1 ; j < index.size(); j++)
+        for(int i = 0 ; i < index.size()-1; i++)        //Double loop for comparing values will be take more time,
+        {                                               //So single will take comparetively less time 
+
+            if(index[i+1]-index[i] < mini)
             {
-                if(index[j]-index[i] < mini)
-                {
-                    mini = index[j]-index[i];
-                }
+                mini = index[i+1]-index[i];
             }
+
+            // for(int j = i+1 ; j < index.size(); j++)
+            // {
+                
+            // }
         }
 
         // cout<<mini<<" "<<(index[index.size()-1] - index[0])<<endl;
@@ -136,6 +147,11 @@ int main()
     // head->insertAtTail(head,1);
     // head->insertAtTail(head,2);
     // head->insertAtTail(head,1);
+
+    // head->insertAtTail(head,2);
+    // head->insertAtTail(head,2);
+    // head->insertAtTail(head,1);
+    // head->insertAtTail(head,3);
 
     head->printLnkdLst(head);
     
