@@ -96,7 +96,49 @@ class Solution
         }  
         else
         {
+            int c = ceil((double)l/k);            
             
+            int count = 1;
+
+            while(count < c)
+            {
+                temp = temp->next;
+                count++;
+            }
+
+            node* partion = temp;
+            temp = temp->next;
+            partion->next = NULL;
+
+            v.push_back(head);
+            int kk = k;
+            kk--;
+
+            int f = ceil((double)(l-count)/kk);
+            count++;
+            
+            for(int i = 0 ; i < k-1; i++)
+            {
+                
+                kk--;
+
+                int tempcount = 1;
+
+                node* tempHead = temp;
+
+                while(tempcount < f)
+                {
+                    temp = temp->next;
+                    count++;
+                    tempcount++;
+                }
+
+                node* partion2 = temp;
+                temp = temp->next;
+                partion2->next = NULL;
+
+                v.push_back(tempHead);
+            }
         }
 
         for(int i = 0; i < k ; i++)
@@ -111,12 +153,17 @@ class Solution
 int main()
 {
     node* head = NULL;
-    // head->insertAtTail(head,0);
     head->insertAtTail(head,1);
     head->insertAtTail(head,2);
     head->insertAtTail(head,3);
-    // head->insertAtTail(head,4);
-    // head->insertAtTail(head,5);
+    head->insertAtTail(head,4);
+    head->insertAtTail(head,5);
+    // head->insertAtTail(head,6);
+    // head->insertAtTail(head,7);
+    // head->insertAtTail(head,8);
+    // head->insertAtTail(head,9);
+    // head->insertAtTail(head,10);
+
 
     head->printLnkdLst(head);
 
@@ -124,5 +171,6 @@ int main()
 
     Solution s;
     s.splitListToParts(head,3);
+
     return 0;
 }
