@@ -74,79 +74,46 @@ class Solution
     {
         vector<node*> v;
         int l = head->lengthOfLnkdLst(head);
+        int divide = l/k;
+        int modulo = l%k;
+
         node* temp = head;
+        node* temphead = head;
 
-        if(k >= l)
+        if(l>k)
         {
-            for(int i = 0 ; i < k; i++)
+            int count;
+
+            for(int i = 0 ; i < k ; i++)
             {
-                if(temp == NULL)
+                count = divide;
+
+                if(modulo > 0)
                 {
-                    v.push_back(temp);
-                    continue;
-                }
-                else
-                {
-                    node* singleNode = temp;
-                    temp = temp ->next;
-                    singleNode->next = NULL;
-                    v.push_back(singleNode);
-                }
-            }
-        }  
-        else
-        {
-            int c = ceil((double)l/k);            
-            
-            int count = 1;
+                    count = count + 1 ;
+                    modulo--;
+                }                
+                int x = 1;
 
-            while(count < c)
-            {
-                temp = temp->next;
-                count++;
-            }
-
-            node* partion = temp;
-            temp = temp->next;
-            partion->next = NULL;
-
-            v.push_back(head);
-            int kk = k;
-            kk--;
-
-            int f = ceil((double)(l-count)/kk);
-            count++;
-            
-            for(int i = 0 ; i < k-1; i++)
-            {
-                
-                kk--;
-
-                int tempcount = 1;
-
-                node* tempHead = temp;
-
-                while(tempcount < f)
+                while(x < count)
                 {
                     temp = temp->next;
-                    count++;
-                    tempcount++;
+                    x++;
                 }
 
-                node* partion2 = temp;
-                temp = temp->next;
-                partion2->next = NULL;
-
-                v.push_back(tempHead);
+                node* newhead = temp->next;
+                temp->next = NULL;
+                v.push_back(head);
+                head = newhead;
             }
         }
 
-        for(int i = 0; i < k ; i++)
+        for(int i = 0 ; i < k ; i++)
         {
-            v[i]->printLnkdLst(v[i]);
+            v[i]->printLnkdLst(v[i]); 
         }
 
-        return v;      
+        return v;
     }
 };
 
@@ -158,11 +125,11 @@ int main()
     head->insertAtTail(head,3);
     head->insertAtTail(head,4);
     head->insertAtTail(head,5);
-    // head->insertAtTail(head,6);
-    // head->insertAtTail(head,7);
-    // head->insertAtTail(head,8);
-    // head->insertAtTail(head,9);
-    // head->insertAtTail(head,10);
+    head->insertAtTail(head,6);
+    head->insertAtTail(head,7);
+    head->insertAtTail(head,8);
+    head->insertAtTail(head,9);
+    head->insertAtTail(head,10);
 
 
     head->printLnkdLst(head);
