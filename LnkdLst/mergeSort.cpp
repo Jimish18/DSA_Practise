@@ -1,3 +1,8 @@
+/*
+merge sort algorith
+    - To sort array in (nlogn) time complexity 
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 

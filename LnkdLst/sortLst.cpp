@@ -1,3 +1,19 @@
+/*
+Problem Statement :-> Given the head of a linked list, return the list after sorting it in ascending order.
+
+example1:
+Input: head = [4,2,1,3]
+Output: [1,2,3,4]
+
+example2 :
+Input: head = [-1,5,3,4,0]
+Output: [-1,0,3,4,5]
+
+example3:
+Input: head = []
+Output: []
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -138,7 +154,10 @@ class Solution
         {
             // newHead->insertAtTail(newHead,v[i]);
             temp->data = v[i];
+            temp = temp->next;
+            // cout<<v[i]<<" ";
         }
+        // cout<<endl;
 
         // temp = head;
 
