@@ -17,12 +17,40 @@ int prefixEvaluation(string s)
             st.pop();
             int op2 = st.top();
             st.pop();
+
+            switch (s[i])
+            {
+            
+                case '+':
+                    st.push(op1+op2);
+                    break;
+
+                case '-':
+                    st.push(op1-op2);
+                    break;
+
+                case '*':
+                    st.push(op1*op2);
+                    break;
+
+                case '/':
+                    st.push(op1/op2);
+                    break;
+
+                case '^':
+                    st.push(pow(op1,op2));
+                    break;
+
+            }
         }
     }
+
+    return st.top();
 }
 
 int main()
 {
-
+    string s = "-+7*45+20";
+    cout<<prefixEvaluation(s)<<endl;
     return 0;
 }
