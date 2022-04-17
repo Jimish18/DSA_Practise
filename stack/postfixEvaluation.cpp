@@ -5,7 +5,7 @@ int prefixEvaluation(string s)
 {
     stack<int> st;
 
-    for(int i = s.length()-1 ; i >= 0 ; i--)
+    for(int i = 0 ; i < s.size() ; i++)
     {
         if(s[i] >= '0' && s[i] <= '9')
         {
@@ -13,9 +13,9 @@ int prefixEvaluation(string s)
         }
         else
         {
-            int op1 = st.top(); //top will be operand 1
+            int op2 = st.top(); //top will be operand 2
             st.pop();
-            int op2 = st.top(); //2nd top will be operand 2
+            int op1 = st.top(); //2nd top will be operand 1
             st.pop();
 
             switch (s[i])
@@ -50,7 +50,8 @@ int prefixEvaluation(string s)
 
 int main()
 {
-    string s = "-+7*45+20";
+    string s = "745*+20+-";
+    // string s = "46+2/5*7+";
     cout<<prefixEvaluation(s)<<endl;
     return 0;
 }
