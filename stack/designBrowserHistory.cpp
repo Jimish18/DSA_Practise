@@ -98,7 +98,7 @@ class BrowserHistory {
         int count = steps;
         int actualCount = 0;
 
-        if(steps >= forwardStack.size())
+        if(steps > forwardStack.size())
         {
             if(forwardStack.size() == 0)
             {
@@ -114,39 +114,42 @@ class BrowserHistory {
                 forwardStack.pop_back();
                 count--;
             }
-            return forwardStack[forwardStack.size()-steps];
+            // return forwardStack[forwardStack.size()-1];
+            return backStack[(backStack.size()-1)-forwardStack.size()];
         }
     }
 };
 
+
+
 int main()
 {
-    // BrowserHistory* b = new BrowserHistory("leetcode.com");
-    // b->visit("google.com");
-    // b->visit("facebook.com");
-    // b->visit("youtube.com");
-    // cout<<b->back(1)<<endl;
-    // cout<<b->back(1)<<endl;
-    // cout<<b->forward(1)<<endl;
-    // b->visit("linkedin.com");
-    // cout<<b->forward(2)<<endl;
-    // cout<<b->back(2)<<endl;
-    // cout<<b->back(7)<<endl;
+    BrowserHistory* b = new BrowserHistory("leetcode.com");
+    b->visit("google.com");
+    b->visit("facebook.com");
+    b->visit("youtube.com");
+    cout<<b->back(1)<<endl;
+    cout<<b->back(1)<<endl;
+    cout<<b->forward(1)<<endl;
+    b->visit("linkedin.com");
+    cout<<b->forward(2)<<endl;
+    cout<<b->back(2)<<endl;
+    cout<<b->back(7)<<endl;
 
-    BrowserHistory* b = new BrowserHistory("esgriv.com");
-    b->visit("cgrt.com");
-    b->visit("tip.com");
-    cout<<b->back(9)<<endl;
-    b->visit("kttzxgh.com");
-    cout<<b->forward(7)<<endl;
-    b->visit("crqje.com");
-    b->visit("iybch.com");
-    cout<<b->forward(5)<<endl;
-    b->visit("uun.com");
-    cout<<b->back(10)<<endl;
-    b->visit("hci.com");
-    b->visit("whula.com");
-    cout<<b->forward(10)<<endl;
+    // BrowserHistory* b = new BrowserHistory("esgriv.com");
+    // b->visit("cgrt.com");
+    // b->visit("tip.com");
+    // cout<<b->back(9)<<endl;
+    // b->visit("kttzxgh.com");
+    // cout<<b->forward(7)<<endl;
+    // b->visit("crqje.com");
+    // b->visit("iybch.com");
+    // cout<<b->forward(5)<<endl;
+    // b->visit("uun.com");
+    // cout<<b->back(10)<<endl;
+    // b->visit("hci.com");
+    // b->visit("whula.com");
+    // cout<<b->forward(10)<<endl;
 
     
     return 0;
