@@ -34,7 +34,6 @@ popped is a permutation of pushed.
 
 
 #include <bits/stdc++.h>
-#include <string>
 using namespace std;
 
 bool validateStackSequences(vector<int>& pushed, vector<int>& popped) 
@@ -50,6 +49,7 @@ bool validateStackSequences(vector<int>& pushed, vector<int>& popped)
         {
             st.pop();
             j++;
+            continue;
         }
 
         if(pushed[i] != popped[j])
@@ -57,7 +57,8 @@ bool validateStackSequences(vector<int>& pushed, vector<int>& popped)
             st.push(pushed[i]);
             i++;
         }        
-        else if(pushed[i] == popped[j])
+        
+        if(pushed[i] == popped[j])
         {
             i++;
             j++;
@@ -87,23 +88,15 @@ bool validateStackSequences(vector<int>& pushed, vector<int>& popped)
     }
 }
 
-// class xyz
-// {
-
-// };
-
 int main()
 {
-    vector<int> push = {1,2,3,4,5};
-    vector<int> pop = {4,3,5,1,2};
+    // vector<int> push = {1,2,3,4,5};
+    // vector<int> pop = {4,3,5,1,2};
+
+    vector<int> push = {2,3,0,1};
+    vector<int> pop = {0,3,2,1};
 
     cout<<validateStackSequences(push,pop)<<endl;
-
-    // xyz* b = new xyz();
-
-    string a = "jimish";
-    string b = "prajapati";
-    cout<<a+b<<endl;
 
     return 0;
 }
