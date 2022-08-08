@@ -23,9 +23,9 @@ class queue
 
     void dequeue()
     {
-        v.pop_front();;
+        v.erase(v.begin());
     }
-}
+};
 
 int main()
 {
