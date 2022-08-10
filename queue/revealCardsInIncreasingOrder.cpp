@@ -48,49 +48,41 @@ All the values of deck are unique.
 #include <bits/stdc++.h>
 using namespace std;
 
-void deckRevealedIncreasing(vector<int>& deck) 
+vector<int> deckRevealedIncreasing(vector<int>& deck) 
 {
     vector<int> result;
 
     sort(deck.begin(),deck.end());
 
-    queue<int> small;
-    queue<int> large;
+    queue<int> q;
+    vector<int> ans(deck.size());
 
-    for(int i = 0 ; i < deck.size()/2 ; i++)
+    for(int i = 0 ; i < deck.size(); i++)
     {
-        small.push(deck[i]);
+        q.push(i);
     }
 
-    for(int i = deck.size()/2 ; i < deck.size()-1 ; i++)
+    for(int i = 0 ; i < deck.size(); i++)
     {
-        large.push(deck[i]);
+        ans[q.front()] = deck[i];
+        q.pop();
+        q.push(q.front());
+        q.pop();
     }
 
-    for(int i = 0; i < deck.size() ; i++)
-    {
-        if((i+1)%2 != 0)
-        {
-            result.push_back(small.front());
-            small.pop();
-        }
-        else
-        {
-            result.push_back(large.front());
-            large.pop();
-        }
-    }
-
-    for(int i = 0 ; i < result.size(); i++)
-    {
-        cout<<result[i]<<" ";
-    }
+    return ans;
 
 
 }
 
 int main()
 {
+    vector<int > v = {19,17,15,13,11,9,7,5,3,2};
+
+    for(int i = 0; i < deckRevealedIncreasing(v).size(); i++)
+    {
+        cout<<deckRevealedIncreasing(v)[i]<<endl;
+    }
 
     return 0;
 }
