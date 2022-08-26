@@ -44,10 +44,11 @@ using namespace std;
 string simplifyPath(string path) 
 {
     string res = "";
-    queue<string> st;
+    stack<string> st;
     string tempString = "";
 
-    for(int i = 0 ; i < path.length(); i++)
+    int i = 0;
+    while(i < path.length())
     {
         if(path[i] == '/' && path[i+1] == '/')
         {
@@ -59,7 +60,8 @@ string simplifyPath(string path)
             tempString += path[i];
             st.push(tempString);
             tempString = "";
-            i++;
+            i++;i++;
+            continue;
         }
         else if(path[i] == '/')
         {
@@ -84,26 +86,17 @@ string simplifyPath(string path)
             if(st.size() > 1)
             {
                 st.pop();
-                // st.pop();
-                // if(st.size() == 1)
-                // {
-                //     continue;
-                // }
-                // else
-                // {
-                // }
-                if(path[i-1] == '/' & st.size() != 1)
-                {
-                    st.pop();
-                }
+                st.pop();
             }
-            else
-            {
-                continue;
-            }
+            // else
+            // {
+            //     continue;
+            // }
+            i++;i++;i++;
+            continue;
             
         }
-        else if(path[i] == '.')
+        else if(path[i] == '.' && path[i+1] == '/')
         {
             
             if(tempString.length() > 0)
@@ -111,39 +104,49 @@ string simplifyPath(string path)
                 st.push(tempString);
                 tempString = "";
             }
-            i++;
             st.pop();
-            continue;
         }
         else
         {
             tempString += path[i];
         }
+        i++;
     }    
+
+    // cout<<st.size()<<endl;
 
    
     if(st.size() == 1)
     {
-        res += st.front();
+        res += st.top();
         st.pop();
         return res;
     }
 
-    while(st.size() != 1)
+    stack<string> reverseStack;
+
+    while(!st.empty())
     {
-        res += st.front();
+        reverseStack.push(st.top());
         st.pop();
     }
 
-    st.pop(); //remove last '/' for canonical path format
+    while(reverseStack.size() != 1)
+    {
+        res += reverseStack.top();
+        reverseStack.pop();
+    }
+
+    // st.pop(); //remove last '/' for canonical path format
 
     return res;
 }
 
 int main()
 {
-    string s = "/a/./b/../../c/";
+    string s = "/a/./b/../../c//.//";
     cout<<simplifyPath(s)<<endl;
+    // simplifyPath(s);
 
     return 0;
 }
