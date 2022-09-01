@@ -54,26 +54,28 @@ int search(vector<int>& nums, int target)
 
         if(nums[s] <= nums[m] )
         {
-            if(target <= nums[m] && target >= nums[s])
+            if(nums[s] <= target && target <= nums[m] )
             {
-                e = (m+n-1)%n;
+                e = m-1;
             }
             else
             {
-                s = (m+1)%n;
+                s = m+1;
             }
         }
         else
         {
-            if(target <= nums[e] && target >= nums[m])
+            if(target >= nums[m] && target <= nums[e])
             {
-                s = (m+1)%n;
+                s = m+1;
             }
             else
             {
-                e = (m+n-1)%n;
+                e = m-1;
             }
         }
+
+        m = s + (e-s)/2;
     }
 
     return -1;
@@ -83,7 +85,7 @@ int main()
 {
     vector<int> v ={4,5,6,7,0,1,2};
     
-    cout<<search(v,0)<<endl;
+    cout<<search(v,4)<<endl;
 
     return 0;
 }
