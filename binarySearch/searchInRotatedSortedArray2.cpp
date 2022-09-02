@@ -45,8 +45,6 @@ bool search(vector<int>& nums, int target)
     int n = nums.size();
     int m = s + (e-s)/2;
 
-    sort(nums.begin(),nums.end());
-
     while(s <= e)
     {
         if(target == nums[m])
@@ -54,18 +52,12 @@ bool search(vector<int>& nums, int target)
             return true;
         }
 
-        // Error with this Approach 
-        /*
-        [1,1,1,1,1,1,1,1,1,13,1,1,1,1,1,1,1,1,1,1,1,1]
-        13
-        */
-        // if(nums[s] == nums[m] && nums[e] == nums[m])
-        // {
-        //     s = (s+1)%n;
-        //     e = (e+n-1)%n;
-        // }
-
-        if(nums[s] <= nums[m] )
+        if(nums[s] == nums[m] && nums[e] == nums[m])
+        {
+            s++;
+            e--;
+        }
+        else if(nums[s] <= nums[m] )
         {
             if(nums[s] <= target && target <= nums[m] )
             {
