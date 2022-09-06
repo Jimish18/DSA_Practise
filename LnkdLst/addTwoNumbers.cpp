@@ -14,23 +14,6 @@ class ListNode
     ListNode* next;
 };
 
-ListNode* reverseLnkdLst(ListNode* &l)
-{
-    ListNode* prev = NULL;
-    ListNode* cur = l;
-    ListNode* next ;
-
-    while(cur != NULL)
-    {
-        next = cur->next;
-        cur->next = prev;
-        prev = cur;
-        cur = next;
-    }
-
-    return prev;
-}
-
 void insertAtTail(ListNode* &head,int val)
 {
     ListNode* newNode = new ListNode();
@@ -57,9 +40,9 @@ void insertAtTail(ListNode* &head,int val)
 ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
 {   
 
-    ListNode* temp1 = reverseLnkdLst(l1);    
+    ListNode* temp1 = l1;    
 
-    ListNode* temp2 = reverseLnkdLst(l2);
+    ListNode* temp2 = l2;
 
     ListNode* head3 = NULL;
 
@@ -100,9 +83,10 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
         temp2 = temp2->next;
     }
 
-    if(carry == 1)
+    if(carry != 0)
     {
-        insertAtTail(head3,carry);
+        insertAtTail(head3,carry%10);
+        carry = carry/10;
     }
 
     return head3;
