@@ -14,20 +14,21 @@ class ListNode
     ListNode* next;
 };
 
-int nodesToNumber(ListNode* l1)
+ListNode* reverseLnkdLst(ListNode* &l)
 {
-    ListNode* temp = l1;
-    int i = 0;
-    int number = 0;
-    while(temp != NULL)
+    ListNode* prev = NULL;
+    ListNode* cur = l;
+    ListNode* next ;
+
+    while(cur != NULL)
     {
-        number+= (pow(10,i)*(temp->data));
-        i++;
-        temp = temp->next;
+        next = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = next;
     }
 
-    return number;
-
+    return prev;
 }
 
 void insertAtTail(ListNode* &head,int val)
@@ -54,21 +55,92 @@ void insertAtTail(ListNode* &head,int val)
 }
 
 ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
+{   
+
+    ListNode* temp1 = reverseLnkdLst(l1);    
+
+    ListNode* temp2 = reverseLnkdLst(l2);
+
+    ListNode* head3 = NULL;
+
+    int carry = 0;
+
+    while(temp1 != NULL && temp2 != NULL)
+    {
+        int data = (temp1->data) + (temp2->data) + carry;
+
+        
+        insertAtTail(head3,data%10);
+
+        carry = data/10;
+
+        temp1 = temp1->next;
+        temp2 = temp2->next;
+    }
+
+    while(temp1 != NULL)
+    {
+        int data = temp1->data + carry;
+
+        insertAtTail(head3,data%10);
+
+        carry = data/10;
+
+        temp1 = temp1->next;
+    }
+
+    while(temp2 != NULL)
+    {
+        int data = temp2->data + carry;
+
+        insertAtTail(head3,data%10);
+
+        carry = data/10;
+
+        temp2 = temp2->next;
+    }
+
+    if(carry == 1)
+    {
+        insertAtTail(head3,carry);
+    }
+
+    return head3;
+}
+
+void printLnkdLst(ListNode* l)
 {
-    
+    ListNode* temp = l;
+
+    while(temp != NULL)
+    {
+        cout<<temp->data<<"->";
+        temp = temp->next;
+
+    }
+    cout<<"NULL"<<endl;
 }
 
 int main()
 {
     ListNode* head = NULL;
-    insertAtTail(head,1);
-    insertAtTail(head,2);
-    insertAtTail(head,3);
+    insertAtTail(head,9);
+    insertAtTail(head,9);
+    insertAtTail(head,9);
+    insertAtTail(head,9);
+    insertAtTail(head,9);
+    insertAtTail(head,9);
+    insertAtTail(head,9);
     ListNode* head2 = NULL;
-    insertAtTail(head,4);
-    insertAtTail(head,5);
+    insertAtTail(head2,9);
+    insertAtTail(head2,9);
+    insertAtTail(head2,9);
+    insertAtTail(head2,9);
 
-    cout<<nodesToNumber(head)<<endl;
+    printLnkdLst(head);
+    printLnkdLst(head2);
+
+    printLnkdLst(addTwoNumbers(head,head2));
 
 
     return 0;
