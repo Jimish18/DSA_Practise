@@ -36,30 +36,25 @@ int longestConsecutive(vector<int>& nums)
 
     unordered_set<int> st(nums.begin(),nums.end());
 
-    for(auto i : st)
-    {
-        cout<<i<<" ";
-    }
-
-    // for(int i = 0 ; i < nums.size(); i++)
-    // {
-    //     st.insert(nums[i]);
-    // }
-
-    int maxLength = 1;
-    int length = 1;
+    int maxLength = 0;
+    int length = 0;
 
     for(auto i : st)
     {
         int temp = i;
-        while(st.find(temp+1) != st.end())
+
+        if(st.find(temp-1) == st.end())
         {
             length++;
-            temp++;
+            while(st.find(temp + 1) != st.end())
+            {
+                length++;
+                temp++;
+            }
         }
-        maxLength = max(maxLength,length);
-        length = 1;
 
+        maxLength = max(maxLength,length);
+        length = 0;
     }
 
     return maxLength;
