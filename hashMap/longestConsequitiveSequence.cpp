@@ -27,26 +27,49 @@ Constraints:
 #include <bits/stdc++.h>
 using namespace std;
 
-void longestConsecutive(vector<int>& nums) 
+int longestConsecutive(vector<int>& nums) 
 {
-    map<int,int> mp;
-
-    for(int i = 0 ; i < nums.size(); i++)
+    if(nums.size() == 0)
     {
-        mp[nums[i]]++;
+        return 0;
     }
 
-    for(auto i : mp)
+    unordered_set<int> st(nums.begin(),nums.end());
+
+    for(auto i : st)
     {
-        cout<<i.first<<" "<<i.second<<endl;
+        cout<<i<<" ";
     }
+
+    // for(int i = 0 ; i < nums.size(); i++)
+    // {
+    //     st.insert(nums[i]);
+    // }
+
+    int maxLength = 1;
+    int length = 1;
+
+    for(auto i : st)
+    {
+        int temp = i;
+        while(st.find(temp+1) != st.end())
+        {
+            length++;
+            temp++;
+        }
+        maxLength = max(maxLength,length);
+        length = 1;
+
+    }
+
+    return maxLength;
 
 }
 
 int main()
 {
-    vector<int> v = {100,4,200,1,3,2};
+    vector<int> v = {0,3,7,2,5,8,4,6,0,1};
 
-    longestConsecutive(v);
+    cout<<longestConsecutive(v)<<endl;
     return 0;
 }
