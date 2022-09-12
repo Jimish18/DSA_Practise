@@ -9,15 +9,35 @@ using namespace std;
 
 vector<vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) 
 {
-    vector<int> v(cols,0);
-    vector<vector<int>> matrix(rows,v);
+    vector<vector<int>> matrixCoOrdinates = {{rStart,cStart}};
+    int dx = 0,dy = 1,temp;
 
-    return matrix;      
+    for(int i = 0 ; matrixCoOrdinates.size() < (rows*cols); i++)
+    {
+        for(int j = 0 ; j < (i/2)+1 ; j++)
+        {
+            rStart += dx;
+            cStart += dy;
+
+            if(0 <= rStart && rStart < rows && 0 <= cStart && cStart < cols)
+            {
+                matrixCoOrdinates.push_back({rStart,cStart});
+            }
+        }
+
+        temp = dx;
+        dx = dy;
+        dy = -temp;
+    }    
+
+    return matrixCoOrdinates;      
 }
+
+
 
 int main()
 {
-    vector<vector<int>> v = spiralMatrixIII(3,4,0,1);
+    vector<vector<int>> v = spiralMatrixIII(1,4,0,0);
 
     for(int i = 0 ; i< v.size(); i++)
     {
