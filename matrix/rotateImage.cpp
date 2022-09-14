@@ -12,17 +12,24 @@ void rotate(vector<vector<int>>& matrix)
     int n = matrix.size()-1;
 
     for(int i = 0 ; i <= n; i++)
-    {
-        int j = n-i;
-        while(j >= 0)
+    {       
+        for(int j = i ; j <= n ; j++)
         {
-            // cout<<matrix[i][j]<<"->"<<matrix[j][n-i]<<endl;
             int temp = matrix[i][j];
-            matrix[i][j] = matrix[n-j][i];
-            matrix[n-j][i] = temp;
-            j--;
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
         }
     }    
+
+    for(int i = 0 ; i <=n; i++)
+    {       
+        for(int j = 0 ; j <= n/2; j++ )
+        {
+            int temp = matrix[i][j];
+            matrix[i][j] = matrix[i][n-j];
+            matrix[i][n-j] = temp;
+        }
+    } 
 }
 
 int main()
