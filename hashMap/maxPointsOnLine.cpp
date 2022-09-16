@@ -7,29 +7,38 @@ Link - https://leetcode.com/problems/max-points-on-a-line/
 #include <bits/stdc++.h>
 using namespace std;
 
-void maxPoints(vector<vector<int>>& points) 
+int maxPoints(vector<vector<int>>& points) 
 {
-    unordered_map<double,int> umap;
-
-    for(int i = 0 ; i < points.size(); i++)
+    int n = points.size();
+    if(n <= 2)
     {
-        for(int j = 0 ; j < points.size(); j++)
-        {
-            if(i == j)
-            {
-                continue;
-            }
-            else
-            {
-                int y = points[j][1] - points[i][1];
-                int x = points[j][0] - points[i][0];
+        return n;
+    }
 
-                double slop = (double)(y)/x;
-                cout<<slop<<endl;
+    int maxPointsOnLine = 2;
+
+    for(int i = 0 ; i < n; i++)
+    {
+        for(int j = i+1 ; j < n; j++)
+        {             
+            int total = 2;
+            for(int k = 0 ; k < n ; k++)
+            {
+                if(k != i && k != j)
+                {
+                    if((points[i][1]-points[j][1])*(points[i][0]-points[k][0]) == (points[i][1] - points[k][1])*(points[i][0]-points[j][0]))
+                    {
+                        total++;
+                    }
+                }
             }
+
+            maxPointsOnLine = max(maxPointsOnLine,total);
+           
         }
-    }    
+    }  
 
+    return maxPointsOnLine;
     
 }
 
@@ -39,6 +48,7 @@ int main()
 {
     vector<vector<int>> points =  {{1,1},{3,2},{5,3},{4,1},{2,3},{1,4}};
     // {{1,1},{2,2},{3,3}}
-    maxPoints(points);
+    // {{1,1},{3,2},{5,3},{4,1},{2,3},{1,4}}
+    cout<<maxPoints(points)<<endl;
     return 0;
 }
