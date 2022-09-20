@@ -7,6 +7,7 @@ Link - https://leetcode.com/problems/4sum/
 #include <bits/stdc++.h>
 using namespace std;
 
+#define ll long long
 vector<vector<int>> fourSum(vector<int>& nums, int target) 
 {
     vector<vector<int>> result;
@@ -24,14 +25,15 @@ vector<vector<int>> fourSum(vector<int>& nums, int target)
             
             while(k < l)
             {
-                if(nums[i]+nums[j]+nums[k]+nums[l] == target)
+                ll tempSum = nums[i]+nums[j]+nums[k]+nums[l];
+                if( tempSum == target)
                 {
                     vector<int> temp = {nums[i],nums[j],nums[k],nums[l]};
                     st.insert(temp);
                     k++;
                     l--;
                 }
-                else if(nums[i]+nums[j]+nums[k]+nums[l] < target)
+                else if(tempSum < target)
                 {
                     k++;
                 }
