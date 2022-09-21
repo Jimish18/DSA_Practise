@@ -24,28 +24,18 @@ vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries)
     {
         int prevVal = nums[queries[i][1]];
         int newVal = nums[queries[i][1]] + queries[i][0];
+
+        if(prevVal%2 == 0)
+        {
+            evenSum -= prevVal;
+        }     
         nums[queries[i][1]] = newVal;
-        if(newVal%2 == 0 && prevVal%2 == 0)
-        {            
-            evenSum -= prevVal;
-            evenSum += newVal;
-            result.push_back(evenSum);
-        }
-        else if(newVal%2 == 0 && prevVal%2 != 0)
+        if(nums[queries[i][1]]%2 == 0)
         {
             evenSum += newVal;
-            result.push_back(evenSum);
         }
-        else if(newVal%2 != 0 && prevVal%2 == 0)
-        {
-            evenSum -= prevVal;
-            result.push_back(evenSum);
-        }
-        else
-        {
-            result.push_back(evenSum);
-        }        
-        
+
+        result.push_back(evenSum);
     }
 
     return result;
@@ -53,11 +43,12 @@ vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries)
 
 int main()
 {
-    vector<vector<int>> queries = {{4,0}};
-    vector<int> nums = {1};
+    vector<vector<int>> queries = {{1,0},{-3,1},{-4,0},{2,3}};
+    vector<int> nums = {1,2,3,4};
     vector<int> evenSumResult = sumEvenAfterQueries(nums,queries);
 
     // {{1,0},{-3,1},{-4,0},{2,3}} {1,2,3,4}
+    // {{4,0}} {1}
 
     for(int i = 0 ; i < evenSumResult.size(); i++)
     {
