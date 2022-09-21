@@ -99,6 +99,6 @@ int main()
     head->printLnkdLst(head);
 
     Solution s;
-    head->printLnkdLst(s.reverseKNodes(head,2));
+    head->printLnkdLst(s.reverseKNodes(head,4));
     return 0;
 }
