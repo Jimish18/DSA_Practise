@@ -9,28 +9,54 @@ using namespace std;
 
 int trap(vector<int>& height) 
 {
-    stack<int> st;
-    int ans = 0;
-    for(int i = 0 ; i < height.size(); i++)
+    // O(n^2)
+    // stack<int> st;
+    // int ans = 0;
+    // for(int i = 0 ; i < height.size(); i++)
+    // {
+    //     while(!st.empty() && height[st.top()] < height[i])
+    //     {
+    //         int t = st.top();
+    //         st.pop();
+    //         if(st.empty())
+    //         {
+    //             break;
+    //         }
+    //         else
+    //         {
+    //             int tempLength = i - st.top()-1;
+    //             ans += (min(height[st.top()],height[i]) - height[t])*tempLength;
+    //         }
+    //     }
+    //     st.push(i);
+    // }
+
+    // O(n)
+    int water = 0;
+    int n = height.size();
+    vector<int> lmax(n);
+    lmax[0] = height[0];
+    vector<int> rmax(n);
+    rmax[n-1] = height[n-1];
+
+    for(int i = 1 ; i < n; i++)
     {
-        while(!st.empty() && height[st.top()] < height[i])
-        {
-            int t = st.top();
-            st.pop();
-            if(st.empty())
-            {
-                break;
-            }
-            else
-            {
-                int tempLength = i - st.top()-1;
-                ans += (min(height[st.top()],height[i]) - height[t])*tempLength;
-            }
-        }
-        st.push(i);
+        lmax[i] = max(height[i],lmax[i-1]);
+    } 
+
+    for(int i = n-2 ; i >= 0; i--)
+    {
+        rmax[i] = max(height[i],rmax[i+1]);
     }  
 
-    return ans;      
+    for(int i = 1 ; i < n-1; i++)
+    {
+        water += min(lmax[i],rmax[i]) - height[i];
+    }
+
+
+
+    return water;      
 }
 
 int main()
