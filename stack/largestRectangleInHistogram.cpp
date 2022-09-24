@@ -33,17 +33,16 @@ vector<int> nextSmallerElement(vector<int> array)
 {
     vector<int> result;
     stack<int> st;
-    int lastNum = array[array.size()-1];
-    array.push_back(lastNum);
+    result.insert(result.begin(),array[array.size()-1]);
     int i = array.size()-2;
     st.push(array.size()-1);
 
     while(i >= 0)
     {
-        while(!st.empty() && array[st.top()] > array[i])
+        while(!st.empty() && array[st.top()] < array[i])
         {
             // st.pop();
-            result.insert(result.begin(),array[st.top()]]);
+            // result.insert(result.begin(),array[st.top()]);
         }
         result.insert(result.begin(),array[st.top()]);
         st.push(i);
