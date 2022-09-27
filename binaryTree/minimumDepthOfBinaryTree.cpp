@@ -29,31 +29,59 @@ void inorderTraversal(TreeNode* root)
     inorderTraversal(root->right);
 }
 
-void minimumDepth(TreeNode* root,int &minD,int d)
-{
-    if(!root->left && !root->right) 
-    {
-        minD = min(minD,d);
-        return;
-    }
-    d++;
-    if(root->left) 
-    {
-        minimumDepth(root->left,minD,d);
-    }
-    if(root->right) 
-    {
-        minimumDepth(root->right,minD,d);
-    }
-}
+// DFS Approach
+// void minimumDepth(TreeNode* root,int &minD,int d)
+// {
+//     if(!root->left && !root->right) 
+//     {
+//         minD = min(minD,d);
+//         return;
+//     }
+//     d++;
+//     if(root->left) 
+//     {
+//         minimumDepth(root->left,minD,d);
+//     }
+//     if(root->right) 
+//     {
+//         minimumDepth(root->right,minD,d);
+//     }
+// }
+
+// int minDepth(TreeNode* root)
+// {
+//     if(root==NULL) return 0;
+//     int minD = INT_MAX;
+//     int d = 1;
+//     minimumDepth(root,minD,d);
+
+//     return minD;
+// }
 
 int minDepth(TreeNode* root)
 {
-    if(root==NULL) return 0;
+    if(!root)
+    {
+        return 0;
+    }
+
+    queue<TreeNode*> q;
     int minD = INT_MAX;
     int d = 1;
-    minimumDepth(root,minD,d);
 
+    q.push(root);
+    q.push(NULL);
+
+    while(!q.empty())
+    {
+        TreeNode* node = q.front();
+        if(node != NULL)
+        {
+            q.pop();
+        }
+
+        
+    }
     return minD;
 }
 

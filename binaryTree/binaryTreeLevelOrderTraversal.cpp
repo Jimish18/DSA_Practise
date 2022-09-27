@@ -28,7 +28,7 @@ vector<vector<int>> levelOrder(TreeNode* root)
 
     q.push(root);
     q.push(NULL);
-
+    bool check = false;
     while(!q.empty())
     {
         TreeNode* node = q.front();
@@ -36,6 +36,7 @@ vector<vector<int>> levelOrder(TreeNode* root)
 
         if(node != NULL)
         {
+            check = false;
             temp.push_back(node->val);
             if(node->left)
             {  
@@ -46,16 +47,17 @@ vector<vector<int>> levelOrder(TreeNode* root)
                 q.push(node->right);
             }
         }
-        else if(!q.empty())
+        else if(node==NULL && check == false)
         {
             result.push_back(temp);
             temp.clear();
+            check = true;
             q.push(NULL);
-        }
+        }        
         
     }    
-    result.push_back(temp);
-    temp.clear();
+    // result.push_back(temp);
+    // temp.clear();
     return result;
 }
 
