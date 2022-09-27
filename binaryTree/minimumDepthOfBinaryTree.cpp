@@ -68,6 +68,7 @@ int minDepth(TreeNode* root)
     queue<TreeNode*> q;
     int minD = INT_MAX;
     int d = 1;
+    bool check = false;
 
     q.push(root);
     q.push(NULL);
@@ -75,25 +76,52 @@ int minDepth(TreeNode* root)
     while(!q.empty())
     {
         TreeNode* node = q.front();
+        q.pop();
+
         if(node != NULL)
         {
-            q.pop();
-        }
+            check = false;
+            if(node->left)
+            {
+                q.push(node->left);
+            }
 
-        
+            if(node->right)
+            {
+                q.push(node->right);
+            }
+
+            if(!node->left && !node->right)
+            {
+                minD = min(minD,d);
+                break;
+            }
+        }
+        else if(node == NULL && check == false)
+        {
+            d++;
+            q.push(NULL);
+        }    
     }
+
     return minD;
 }
 
 int main()
 {
-    TreeNode* p = new TreeNode(2);
-    p->right = new TreeNode(3);
-    p->right->right = new TreeNode(4);
-    p->right->right->right = new TreeNode(5);
-    p->right->right->right->right = new TreeNode(6);
+    // TreeNode* root = new TreeNode(2);
+    // root->right = new TreeNode(3);
+    // root->right->right = new TreeNode(4);
+    // root->right->right->right = new TreeNode(5);
+    // root->right->right->right->right = new TreeNode(6);
 
-    cout<<minDepth(p)<<endl;
+    TreeNode* root = new TreeNode(3);
+    root->left = new TreeNode(9);
+    root->right = new TreeNode(20);
+    root->right->left = new TreeNode(15);
+    root->right->right = new TreeNode(7);
+
+    cout<<minDepth(root)<<endl;
     
     return 0;
 }
