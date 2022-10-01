@@ -17,6 +17,8 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {};
 };
 
+
+
 void calcPathSum(TreeNode* root,vector<vector<int>> &result,vector<int> &path,int targetSum,int curSum)
 {
     if(!root)
@@ -31,24 +33,37 @@ void calcPathSum(TreeNode* root,vector<vector<int>> &result,vector<int> &path,in
     if(!root->left && !root->right && curSum == targetSum)
     {
         result.push_back(path);
-        path.clear();
+        path.pop_back();
         return;
     }
 
+
     calcPathSum(root->left,result,path,targetSum,curSum);    
-    path.pop_back();
     calcPathSum(root->right,result,path,targetSum,curSum);    
+    path.pop_back();
     
 }
 
 vector<vector<int>> pathSum(TreeNode* root, int targetSum) 
-{
+{   
     vector<vector<int>> result;   
     vector<int> path;
 
     calcPathSum(root,result,path,targetSum,0);
 
     return result;     
+}
+
+void inOrederTraversal(TreeNode* root)
+{
+    if(!root)
+    {
+        return;
+    }
+
+    inOrederTraversal(root->left);
+    cout<<root->val<<" ";
+    inOrederTraversal(root->right);
 }
 
 int main()
@@ -74,5 +89,7 @@ int main()
         }
         cout<<endl;
     }
+
+    // inOrederTraversal(root);
     return 0;
 }
