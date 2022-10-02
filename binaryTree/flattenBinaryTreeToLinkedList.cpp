@@ -16,33 +16,38 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {};
 };
 
-void dfs(TreeNode* root,vector<TreeNode*> &nodes)
+// void dfs(TreeNode* root,vector<TreeNode*> &nodes)
+// {
+//     if(!root)
+//     {
+//         return;
+//     }
+//     dfs(root->left,nodes);
+//     nodes.push_back(root);
+//     dfs(root->right,nodes);
+// }
+
+// void flatten(TreeNode* root) 
+// {
+//     vector<TreeNode*> nodes;
+//     dfs(root->left,nodes);
+//     dfs(root->right,nodes);
+
+//     int i = 0;
+
+//     TreeNode* temp = root;
+//     while(i < nodes.size())
+//     {
+//         temp->left = NULL;
+//         temp->right = nodes[i];
+//         temp = temp->right;
+//         i++;
+//     }
+// }
+
+void flatten(TreeNode* root)
 {
-    if(!root)
-    {
-        return;
-    }
-    dfs(root->left,nodes);
-    nodes.push_back(root);
-    dfs(root->right,nodes);
-}
-
-void flatten(TreeNode* root) 
-{
-    vector<TreeNode*> nodes;
-    dfs(root->left,nodes);
-    dfs(root->right,nodes);
-
-    int i = 0;
-
-    TreeNode* temp = root;
-    while(i < nodes.size())
-    {
-        temp->left = NULL;
-        temp->right = nodes[i];
-        temp = temp->right;
-        i++;
-    }
+    
 }
 
 
