@@ -16,6 +16,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {};
 };
 
+// O(n) space Complexity
 // void dfs(TreeNode* root,vector<TreeNode*> &nodes)
 // {
 //     if(!root)
@@ -45,9 +46,47 @@ struct TreeNode {
 //     }
 // }
 
+
+
+// O(1) Space Complexity
 void flatten(TreeNode* root)
 {
-    
+    if(!root || (!root->left && !root->right))
+    {
+        return;
+    }
+
+    if(root->left)
+    {
+        flatten(root->left);
+
+        TreeNode* temp = root->right;
+        root->right = root->left;
+        root->left = NULL;
+
+        TreeNode* t = root->right;
+
+        while(t->right)
+        {
+            t = t->right;
+        }
+
+        t->right = temp;
+    }
+
+    flatten(root->right);
+
+}
+
+void printFlattenTree(TreeNode* root)
+{
+    if(!root)
+    {
+        return;
+    }
+
+    cout<<root->val<<" ";
+    printFlattenTree(root->right);
 }
 
 
@@ -57,9 +96,12 @@ int main()
     TreeNode* root = new TreeNode(1);
     root->left = new TreeNode(2);
     root->left->left = new TreeNode(3);
-    root->left->right = new TreeNode(3);
+    root->left->right = new TreeNode(4);
     root->right = new TreeNode(5);
     root->right->right = new TreeNode(6);
+
+    flatten(root);
+    printFlattenTree(root);
 
     
     return 0;
