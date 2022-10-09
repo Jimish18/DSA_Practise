@@ -17,70 +17,52 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-// void dfs(TreeNode* root,string &result,string &temp,bool &check)
-// {
-//     if(!root)
-//     {
-//         return ;
-//     }
+string s = "~";
 
-//     if(!root->left && !root->right)
-//     {
-//         if(check)
-//         {
-//             if(temp < result)
-//             {
-//                 result = temp;
-//             }
-//         }
-//         else
-//         {
-
-//         }
-//     }
-
-
-// }
-
-string answer = "~";
-
-void recure(TreeNode* root,string s){
-            if (!root) return;
-            if (!root->left && !root->right){
-                answer = min(answer,char(root->val+'a')+s);
-            }
-            recure(root->left,char(root->val+'a')+s);
-            recure(root->right,char(root->val+'a')+s);
-}
-    string smallestFromLeaf(TreeNode* root) {
-        recure(root,"");
-        return answer;
+void dfs(TreeNode* root,string check)
+{
+    if(!root)
+    {
+        return;
     }
+
+    if(!root->left && !root->right)
+    {
+        s = min(s,(char)((root->val) + 'a') + check);
+    }    
+
+    dfs(root->left,(char)((root->val) + 'a') + check);
+    dfs(root->right,(char)((root->val) + 'a') + check);
+}
 
 string smallestFromLeaf(TreeNode* root) 
 {
+    string check = "";
 
+    dfs(root,check);
+
+    return s;
 }
 
 int main()
 {
-    // vector<string> s = {"John","Remo","Mixy","Julie","Ronny"};
+    TreeNode* root = new TreeNode(0);
+    root->left = new TreeNode(1);
+    root->right = new TreeNode(2);
+    root->left->left = new TreeNode(3);
+    root->left->right = new TreeNode(4);
+    root->right->left = new TreeNode(3);
+    root->right->right = new TreeNode(4);
 
-    // cout<<"before Sorting =>"<<endl;
-    // for(int i = 0 ; i < s.size(); i++)
-    // {
-    //     cout<<s[i]<<endl;
-    // }
+    // TreeNode* root = new TreeNode(25);
+    // root->left = new TreeNode(1);
+    // root->right = new TreeNode(3);
+    // root->left->left = new TreeNode(1);
+    // root->left->right = new TreeNode(3);
+    // root->right->left = new TreeNode(0);
+    // root->right->right = new TreeNode(2);
 
-    // cout<<"After Sorting =>"<<endl;
-    // sort(s.begin(),s.end());
-    // for(int i = 0 ; i < s.size(); i++)
-    // {
-    //     cout<<s[i]<<endl;
-    // }
-
-    // cout<<(s[0]<s[1])<<endl;
-
-    cout<<(char)(1+'a')<<endl;
+    cout<<smallestFromLeaf(root)<<endl;
+    // cout<<("~" > "")<<endl;
     return 0;
 }
