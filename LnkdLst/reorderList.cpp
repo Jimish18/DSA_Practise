@@ -48,7 +48,7 @@ void printList(ListNode* root)
     cout<<"NULL"<<endl;
 }
 
-ListNode* reorderList(ListNode* root)
+void reorderList(ListNode* &root)
 {
     ListNode* fast = root;
     ListNode* slow = root;
@@ -57,6 +57,11 @@ ListNode* reorderList(ListNode* root)
     {
         fast = fast->next->next;
         slow = slow->next;
+    }
+
+    if(slow == fast)
+    {
+        return;
     }
 
     ListNode* prev = NULL;
@@ -70,49 +75,25 @@ ListNode* reorderList(ListNode* root)
         cur->next = prev ;
         prev = cur;
         cur = next;
-    }
-
-    // printList(root);
-    // printList(prev);
+    }  
 
 
     ListNode* temp = root;
+    // ListNode* temp12 = temp11->next;
     ListNode* temp2 = prev;
-    ListNode* tempRoot = new ListNode(0);
-    ListNode* temp3 = tempRoot;
-    bool check = false;
+    // ListNode* temp22 = temp21->next;    
 
     while(temp2)
     {
-        if(check)
-        {
-            temp3->next = temp2;
-            temp2 = temp2->next;
-            temp3 = temp3->next;           
-        }
-        else
-        {
-            temp3->next = temp;
-            temp = temp->next;
-            temp3 = temp3->next;
-        }
-
-        check = !check;
-
-    }
-
-    if(temp)
-    {
-        temp3->next = temp;
-        temp3 = temp3->next;
+        ListNode* superTemp = temp->next;
+        temp->next = temp2;
+        temp = temp->next;
+        temp2 = temp2->next;
+        temp->next = superTemp;
         temp = temp->next;
     }
 
-    temp3->next = NULL;
-
-
-    return tempRoot->next;
-    
+        
 }
 
 
@@ -130,7 +111,7 @@ int main()
     printList(root);
 
     cout<<endl<<"after"<<endl;
-    printList(reorderList(root));
+    printList(root);
 
     // ListNode* temp = reorderList(root);
 
