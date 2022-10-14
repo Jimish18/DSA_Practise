@@ -35,102 +35,147 @@ Node 0 with value 2 is the only node remaining after removing node 1.
 #include <bits/stdc++.h>
 using namespace std;
 
-class node
-{
-    public:
-    int data;
-    node* next;
 
-    void insertAtHead(node* &head,int val)
-    {
-        node* newNode = new node();
-        newNode->data = val;
-        newNode->next = head;
-        head = newNode;
-    }
+// class node
+// {
+//     public:
+//     int data;
+//     node* next;
 
-    void insertAtTail(node* &head,int val)
-    {
-        node* newNode = new node();
-        newNode->data = val;
-        newNode->next = NULL;
-        node* temp = head;
+//     void insertAtHead(node* &head,int val)
+//     {
+//         node* newNode = new node();
+//         newNode->data = val;
+//         newNode->next = head;
+//         head = newNode;
+//     }
 
-        if(head == NULL)
-        {
-            head = newNode;
+//     void insertAtTail(node* &head,int val)
+//     {
+//         node* newNode = new node();
+//         newNode->data = val;
+//         newNode->next = NULL;
+//         node* temp = head;
 
-            return;
-        }
+//         if(head == NULL)
+//         {
+//             head = newNode;
 
-        while(temp->next != NULL)
-        {
-            temp = temp->next;
-        }
+//             return;
+//         }
 
-        temp -> next = newNode;
+//         while(temp->next != NULL)
+//         {
+//             temp = temp->next;
+//         }
 
-    }
+//         temp -> next = newNode;
 
-    void printLnkdLst(node* head)
-    {
-        node* temp = head;
+//     }
 
-        while(temp != NULL)
-        {
-            cout<<temp->data<<"->";
-            temp = temp->next;
-        }
+//     void printLnkdLst(node* head)
+//     {
+//         node* temp = head;
 
-        cout<<"NULL"<<endl;
-    }
+//         while(temp != NULL)
+//         {
+//             cout<<temp->data<<"->";
+//             temp = temp->next;
+//         }
 
-    int lengthOfLnkdLst(node* head)
-    {
-        node* temp = head;
-        int count = 0;
+//         cout<<"NULL"<<endl;
+//     }
 
-        while(temp != NULL)
-        {
-            count++;
-            temp = temp->next;
-        }
+//     int lengthOfLnkdLst(node* head)
+//     {
+//         node* temp = head;
+//         int count = 0;
 
-        return count;
-    }
-};
+//         while(temp != NULL)
+//         {
+//             count++;
+//             temp = temp->next;
+//         }
 
-class Solution 
-{
-    public:
+//         return count;
+//     }
+// };
+
+
+// Brute Force Approach
+// class Solution 
+// {
+//     public:
     
-    node* deleteMiddle(node* head) 
-    {
-        if(head == NULL || head->next == NULL)
-        {
-            return NULL;
-        }
-        node* temp = head;
-        int count = 1;
-        int l = head->lengthOfLnkdLst(head);
+//     node* deleteMiddle(node* head) 
+//     {
+//         if(head == NULL || head->next == NULL)
+//         {
+//             return NULL;
+//         }
+//         node* temp = head;
+//         int count = 1;
+//         int l = head->lengthOfLnkdLst(head);
 
-        while(temp != NULL && count < l/2)
-        {
-            temp = temp->next;
-            count++;
-        }
+//         while(temp != NULL && count < l/2)
+//         {
+//             temp = temp->next;
+//             count++;
+//         }
 
-        node* toDelete = temp->next;
-        temp->next = temp->next->next;
-        delete toDelete;
+//         node* toDelete = temp->next;
+//         temp->next = temp->next->next;
+//         delete toDelete;
 
-        return head;
-    }
+//         return head;
+//     }
+// };
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
+
+ListNode* deleteMiddle(ListNode* head) 
+{
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while(fast->next && fast->next->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+
+    if(slow == fast && !fast->next)
+    {
+        return NULL;
+    }
+
+    if(slow != fast && !fast->next)
+    {
+        fast = slow;
+        slow = head;
+
+        while(slow->next != fast)
+        {
+            slow = slow->next;
+        }
+    }
+
+    ListNode* toDelete = slow->next;
+    slow->next = slow->next->next;
+    delete toDelete;
+
+    return head;
+}
 
 int main()
 {
-    node* head = NULL;
+    ListNode* head = NULL;
     // head->insertAtTail(head,0);
     // head->insertAtTail(head,2);
     // head->insertAtTail(head,4);
