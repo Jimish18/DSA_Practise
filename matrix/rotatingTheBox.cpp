@@ -12,8 +12,8 @@ vector<vector<char>> rotateTheBox(vector<vector<char>>& box)
     int n = box.size();
     int m = box[0].size();
     int j,k;
-    vector<char> v(m,'.');
-    vector<vector<char>> result(n,v);
+    vector<char> v(n,'.');
+    vector<vector<char>> result(m,v);
 
 
     if(m > 1)
@@ -24,10 +24,12 @@ vector<vector<char>> rotateTheBox(vector<vector<char>>& box)
             k = m-1;
             while(j >= 0)
             {
-                while(box[i][j] == '.')
+                while(j >= 0 && box[i][j] == '.')
                 {
                     j--;                    
                 }
+                
+                if(j < 0) break;
 
                 if(box[i][j] == '*')
                 {
@@ -51,33 +53,32 @@ vector<vector<char>> rotateTheBox(vector<vector<char>>& box)
         }
     }
 
-    // int newRow = box[0].size();
-    // int newCol = box.size();
+    int newRow = box[0].size();
+    int newCol = box.size();
 
-    // for(int i = 0 ; i < newRow; i++)
-    // {
-    //     for(int l = 0 ; l < newCol ; l++)
-    //     {
-    //         result[i][l] = box[l][i];
-    //     }
-    // }
+    for(int i = 0 ; i < newRow; i++)
+    {
+        for(int l = 0 ; l < newCol ; l++)
+        {
+            result[i][l] = box[l][i];
+        }
+    }
 
-    // for(int i = 0 ; i < m/2; i++)
-    // {
-    //     for(int l = 0; l < n; l++)
-    //     {
-    //         char temp = box[l][i];
-    //         box[l][i] = box[i][l];
-    //         box[i][l] = temp;
-    //     }
-    // }
+    for(int i = 0 ; i < newCol/2; i++)
+    {
+        for(int l = 0; l < newRow; l++)
+        {
+            swap(result[l][i],result[l][newCol-i-1]);
+        }
+    }
 
-    return box;       
+    return result;       
 }
 
 int main()
 {
-    vector<vector<char>> v = {{'#','#','*','.','*','.'},{'#','#','#','*','.','.'},{'#','#','#','.','#','.'}};
+    vector<vector<char>> v = {{'#','.','*','.'},{'#','#','*','.'}};
+    // {{'#','#','*','.','*','.'},{'#','#','#','*','.','.'},{'#','#','#','.','#','.'}};
     vector<vector<char>> result = rotateTheBox(v);
 
     for(int i = 0 ;i < result.size(); i++)
