@@ -36,47 +36,35 @@ using namespace std;
 
 vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) 
 {
-    int n = intervals.size();
+    vector<vector<int>> temp;
 
-    if(n == 0)
+    for(auto in : intervals)
     {
-        intervals.insert(intervals.begin(),newInterval);
-        return intervals;
-    }
-    int i;
-    for(i = 1 ; i < n; i++)
-    {
-        if(newInterval[0] < intervals[i][0])
+        if(in[1] < newInterval[0])
         {
-            intervals.insert(intervals.begin()+i,newInterval);
-            break;
+            temp.push_back(in);
         }
-        if(i == n-1)
+        else if(newInterval[1] < in[0])
         {
-            intervals.insert(intervals.end(),newInterval);
-            return intervals;
-        }
-    }
-    --i;
-    int pointer = i;
-    while(i < intervals.size())
-    {
-        if(intervals[pointer][1] < intervals[i][0])
-        {
-            pointer++;
+            temp.push_back(newInterval);
+            newInterval = in;
         }
         else
         {
-            intervals[pointer][1] = max(intervals[pointer][1],intervals[i][1]);
-            if(pointer != i)
-            {
-                intervals.erase(intervals.begin()+i);
-                continue;
-            }
+            newInterval[0] = min(in[0],newInterval[0]);
+            newInterval[1] = max(in[1],newInterval[1]);
         }
-        i++;
     }
 
+    temp.push_back(newInterval);
+    intervals.clear();
+
+    for(auto x : temp)
+    {
+        intervals.push_back(x);
+    }
+
+    temp.clear();
     return intervals;
 }
 
