@@ -17,19 +17,16 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {};
 };
 
+bool dfs(TreeNode* root,long min,long max)
+{
+    if(!root) return true;
+
+    if(root->val <= min || root->val >= max) return false;
+
+    return dfs(root->left,min,root->val) && dfs(root->right,root->val,max);
+}
+
 bool isValidBST(TreeNode* root) 
 {
-    if(!root)
-    {
-        return true;
-    }        
-
-    bool left = isValidBST(root->left);
-    bool right = isValidBST(root->right);
-    int leftcheck
-
-    if(root->left)
-    {
-
-    }
+    return dfs(root,LONG_MIN,LONG_MAX);
 }
