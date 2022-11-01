@@ -7,6 +7,7 @@ Link - https://leetcode.com/problems/sort-colors/
 #include <bits/stdc++.h>
 using namespace std;
 
+// keep count Approach
 void sortColors(vector<int>& nums) 
 {
     int zeros = 0;
@@ -41,6 +42,32 @@ void sortColors(vector<int>& nums)
             nums.push_back(2);
             twos--;
         } 
+    }
+}
+
+// 3 pointer Approach
+void sortColors(vector<int>& nums) 
+{
+    int low = 0;
+    int mid = 0;
+    int high = nums.size()-1;
+
+    while(mid <= high)
+    {
+        switch(nums[mid])
+        {
+            case 0:
+            swap(nums[mid++],nums[low++]);
+            break;
+
+            case 1:
+            mid++;
+            break;
+
+            case 2:
+            swap(nums[mid],nums[high--]);
+            break;
+        }
     }
 }
 
