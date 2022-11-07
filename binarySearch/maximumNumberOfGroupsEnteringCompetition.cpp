@@ -7,32 +7,50 @@ Link - https://leetcode.com/problems/maximum-number-of-groups-entering-a-competi
 #include <bits/stdc++.h>
 using namespace std;
 
+
+// Brute Froce
+// int maximumGroups(vector<int>& grades) 
+// {
+//     sort(grades.begin(),grades.end());
+
+//     int count = 0;
+//     int n = grades.size();
+//     int i = 1;
+
+//     while(n > 0)
+//     {
+//         count++;
+//         n = n-i;
+//         i++;
+//         if(n < 0)
+//         {
+//             break;
+//         }
+        
+//         if(n-i != 0 && n-i < i)
+//         {
+//             n -= i;
+//         }
+//     }        
+
+//     return count;
+// }
+
+// Optimized Brute Force
 int maximumGroups(vector<int>& grades) 
 {
-    sort(grades.begin(),grades.end());
-
-    int count = 0;
+    int total = 0;
     int n = grades.size();
-    int i = 1;
+    int k = 0;
 
-    while(n > 0)
+    while(total + k + 1 <= n)
     {
-        count++;
-        n = n-i;
-        i++;
-        if(n < 0)
-        {
-            break;
-        }
-        
-        if(n-i != 0 && n-i < i)
-        {
-            n -= i;
-        }
-    }        
+        total += ++k;
+    }
 
-    return count;
+    return k;
 }
+
 
 int main()
 {
