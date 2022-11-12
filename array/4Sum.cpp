@@ -8,52 +8,108 @@ Link - https://leetcode.com/problems/4sum/
 using namespace std;
 
 #define ll long long
+
 vector<vector<int>> fourSum(vector<int>& nums, int target) 
 {
     vector<vector<int>> result;
-    set<vector<int>> st;
     int n = nums.size();
-    int  k , l ;
 
-    sort(nums.begin(),nums.end());
-    for(int i = 0 ; i < n-3; i++)
+    if(n == 0)
     {
-        for(int j = i+1 ; j < n-2 ; j++)
+        return result;
+    }     
+
+    sort(nums.begin(),nums.end());   
+
+    for(int i = 0; i < n; i++)
+    {
+        ll target3 = target - nums[i];
+
+        for(int j = i+1; j < n; j++)
         {
-            k = j+1;
-            l = n - 1;
-            
-            while(k < l)
+            ll target2 = target3 - nums[j];
+
+            int front = j+1;
+            int back = n-1;
+
+            while(front < back)
             {
-                ll tempSum = nums[i]+nums[j]+nums[k]+nums[l];
-                if( tempSum == target)
-                {
-                    vector<int> temp = {nums[i],nums[j],nums[k],nums[l]};
-                    st.insert(temp);
-                    k++;
-                    l--;
-                }
-                else if(tempSum < target)
-                {
-                    k++;
-                }
+                ll twoSum = nums[front] + nums[back];
+
+                if(twoSum < target2) front++;
+                else if(twoSum > target2) back--;
                 else
                 {
-                    l--;
+                    vector<int> quad(4,0);
+                    quad[0] = nums[i];
+                    quad[1] = nums[j];
+                    quad[2] = nums[front];
+                    quad[3] = nums[back];
+
+                    result.push_back(quad);
+
+                    while((front < back) && quad[2] == nums[front]) ++front;
+
+                    while((front < back) && quad[3] == nums[back]) --back;
                 }
             }
+
+            while((j+1 < n) && nums[j+1] == nums[j]) ++j; 
         }
-    }    
 
-    for(auto i : st)
-    {
-        result.push_back(i);
-    } 
+        while((i+1 < n) && nums[i+1] == nums[i]) ++i;
+    }
 
-    st.clear();
-
-    return result;   
+    return result;
 }
+
+// Two Pointer (Brute Force Approach) - TLE
+// vector<vector<int>> fourSum(vector<int>& nums, int target) 
+// {
+//     vector<vector<int>> result;
+//     set<vector<int>> st;
+//     int n = nums.size();
+//     int  k , l ;
+
+//     sort(nums.begin(),nums.end());
+//     for(int i = 0 ; i < n-3; i++)
+//     {
+//         for(int j = i+1 ; j < n-2 ; j++)
+//         {
+//             k = j+1;
+//             l = n - 1;
+            
+//             while(k < l)
+//             {
+//                 ll tempSum = nums[i]+nums[j]+nums[k]+nums[l];
+//                 if( tempSum == target)
+//                 {
+//                     vector<int> temp = {nums[i],nums[j],nums[k],nums[l]};
+//                     st.insert(temp);
+//                     k++;
+//                     l--;
+//                 }
+//                 else if(tempSum < target)
+//                 {
+//                     k++;
+//                 }
+//                 else
+//                 {
+//                     l--;
+//                 }
+//             }
+//         }
+//     }    
+
+//     for(auto i : st)
+//     {
+//         result.push_back(i);
+//     } 
+
+//     st.clear();
+
+//     return result;   
+// }
 
 int main()
 {
