@@ -26,13 +26,7 @@ string frequencySort(string s)
     string result = "";
     while(!maxH.empty())
     {
-        int count = maxH.top().first;
-
-        while(count)
-        {
-            result += maxH.top().second;
-            count--;
-        }
+        result.append(maxH.top().first,maxH.top().second);
 
         maxH.pop();
     }
@@ -44,7 +38,7 @@ string frequencySort(string s)
 
 int main()
 {
-    string s = "tree";
+    string s = "Aabb";
     // Aabb
     // cccaaa
     cout<<frequencySort(s)<<endl;
