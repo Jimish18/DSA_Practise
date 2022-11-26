@@ -45,24 +45,18 @@ using namespace std;
 int n;
 bool helper(vector<int> arr,int sum,int index,vector<vector<int>> &dp)
 {
-    if(index >= n)
-    {
-        if(sum == 0)
-        {
-            return true;
-        }
-        return false;
-    }
+    if(sum == 0) return true;
+    if(n <= 0) return false;
 
-    if(dp[arr[index]][sum] != -1 ) return dp[arr[index]][sum]; 
+    if(dp[n-1][sum] != -1 ) return dp[n-1][sum]; 
 
-    if(arr[index] <= sum)
+    if(arr[index-1] <= sum)
     {
-        return dp[arr[index]][sum] = helper(arr,sum-arr[index],index+1,dp) || helper(arr,sum,index+1,dp);
+        return dp[n-1][sum] = helper(arr,sum-arr[index-1],index-1,dp) || helper(arr,sum,index-1,dp);
     }
-    else if(arr[index] > sum)
+    else if(arr[index-1] > sum)
     {
-        return dp[arr[index]][sum] = helper(arr,sum,index+1,dp);
+        return dp[n-1][sum] = helper(arr,sum,index-1,dp);
     }
 
     return false;
@@ -74,7 +68,8 @@ bool isSubsetSum(vector<int>arr, int sum)
     vector<int> temp(sum+1,-1);
     vector<vector<int>> dp(n+1,temp) ;
 
-    return helper(arr,sum,0,dp);
+    return helper(arr,sum,n,dp);
+    
 }
 
 int main()
