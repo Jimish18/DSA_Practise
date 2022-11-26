@@ -7,38 +7,74 @@ Link - https://practice.geeksforgeeks.org/problems/subset-sum-problem-1611555638
 #include <bits/stdc++.h>
 using namespace std;
 
+// Tabulation DP
+// bool isSubsetSum(vector<int>arr, int sum)
+// {
+//     vector<bool> temp(sum+1);
+//     int n = arr.size();
+//     vector<vector<bool>> dp(n+1,temp);
+
+//     for(int i = 0; i < sum+1; i++)
+//     {
+//         dp[0][i] = false;
+//     }
+
+//     for(int i = 0; i < n+1; i++)
+//     {
+//         dp[i][0] = true;
+//     }
+
+//     for(int i = 1; i < n+1; i++)
+//     {
+//         for(int j = 1; j < sum+1; j++)
+//         {
+//             if(arr[i-1] <= j)
+//             {
+//                 dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
+//             }
+//             else if(arr[i-1] > j)
+//             {
+//                 dp[i][j] = dp[i-1][j];
+//             }
+//         }
+//     }
+
+//     return dp[n][sum];
+// }
+
+int n;
+bool helper(vector<int> arr,int sum,int index,vector<vector<int>> &dp)
+{
+    if(index >= n)
+    {
+        if(sum == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    if(dp[arr[index]][sum] != -1 ) return dp[arr[index]][sum]; 
+
+    if(arr[index] <= sum)
+    {
+        return dp[arr[index]][sum] = helper(arr,sum-arr[index],index+1,dp) || helper(arr,sum,index+1,dp);
+    }
+    else if(arr[index] > sum)
+    {
+        return dp[arr[index]][sum] = helper(arr,sum,index+1,dp);
+    }
+
+    return false;
+}
+
 bool isSubsetSum(vector<int>arr, int sum)
 {
-    vector<bool> temp(sum+1);
-    int n = arr.size();
-    vector<vector<bool>> dp(n+1,temp);
+    n = arr.size(); 
+    vector<int> temp(sum+1,-1);
+    vector<vector<int>> dp(n+1,temp) ;
 
-    for(int i = 0; i < sum+1; i++)
-    {
-        dp[0][i] = false;
-    }
-
-    for(int i = 0; i < n+1; i++)
-    {
-        dp[i][0] = true;
-    }
-
-    for(int i = 1; i < n+1; i++)
-    {
-        for(int j = 1; j < sum+1; j++)
-        {
-            if(arr[i-1] <= j)
-            {
-                dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
-            }
-            else if(arr[i-1] > j)
-            {
-                dp[i][j] = dp[i-1][j];
-            }
-        }
-    }
-
-    return dp[n][sum];
+    return helper(arr,sum,0,dp);
 }
 
 int main()
