@@ -52,11 +52,11 @@ void printLnkdLst(node* head)
     cout<<"NULL"<<endl;
 }
 
-node* oddEvenList(node* head)
+ListNode* oddEvenList(ListNode* head)
 {
-    node* odd = head;
-    node* even = head->next;
-    node* evenstrt = head->next;
+    ListNode* odd = head;
+    ListNode* even = head->next;
+    ListNode* evenstrt = head->next;
 
     if(head == NULL || head->next == NULL || head->next->next == NULL)
     {
