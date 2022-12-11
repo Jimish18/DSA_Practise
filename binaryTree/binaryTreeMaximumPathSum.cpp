@@ -19,22 +19,29 @@ struct TreeNode
 
 int maxSum = INT_MIN;
 
-int pathSum(TreeNode* root,int sum)
+int pathSum(TreeNode* root)
 {
     if(!root)
     {
         return 0;
     }
 
-    sum += root->val;
-    int leftSum = pathSum(root->left,sum);
+    int leftSum = pathSum(root->left);
+    int rightSum = pathSum(root->right);
+    int sumLeft = max((leftSum+(root->val)+rightSum),max(leftSum+(root->val),root->val));
+    int sumRight = max((leftSum+(root->val)+rightSum),max(rightSum+(root->val),root->val));
+
+    maxSum = max(maxSum,max(sumLeft,sumRight));
+
+    return max((leftSum+(root->val)),max(root->val,(rightSum+(root->val))));
     
-    int rightSum = pathSum(root->right,sum);
 }
 
 int maxPathSum(TreeNode* root) 
 {
+    pathSum(root);
 
+    return maxSum;
 }
 
 int main()
