@@ -8,11 +8,11 @@ Link - https://leetcode.com/problems/climbing-stairs/
 #include <bits/stdc++.h>
 using namespace std;
 
-void countAttemt(int n,vector<int> &dp)
+int countAttemt(int n,vector<int> &dp)
 {
     if(n <= 0) return;
 
-    if(dp[n-1] != -1)
+    if(dp[n-1] != 0)
     {
         dp[n] = dp[n-1];
         return;
