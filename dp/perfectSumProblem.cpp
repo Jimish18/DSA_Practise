@@ -35,80 +35,56 @@ using namespace std;
 
 
 
-// int helper(int arr[],int index,int sum,vector<vector<int>> &dp)
-// {
-//     if(sum == 0) return 1;
-//     if(sum < 0 || index < 0) return 0;
-
-//     if(dp[index][sum] != -1) return dp[index][sum];
-
-//     if(arr[index] <= sum)
-//     {
-//         return dp[index][sum] = helper(arr,index-1,sum-arr[index],dp) + helper(arr,index-1,sum,dp);
-//     }  
-//     else if(arr[index] > sum)
-//     {
-//         return dp[index][sum] = helper(arr,index-1,sum,dp);
-//     }
-
-//     return -1;
-
-// }
-
-
-// int perfectSum(int arr[], int n, int sum)
-// {
-//     long long mod = 1e9+7;
-//     vector<int> temp(sum+1,-1);
-//     vector<vector<int>> dp(n+1,temp);
-
-//     helper(arr,n-1,sum,dp);
-
-//     return (dp[n-1][sum])%mod;
-// }
-
-int topDown(int arr[],int sum,vector<vector<int>> &dp,int n)
+long long mod = 1e9+7;
+	
+long long helper(vector<long long> &arr,int index,int sum,vector<vector<long long>> &dp)
 {
+    if(sum == 0) return 1;
+    if(sum < 0 || index < 0) return 0;
 
-    for(int i = 0 ; i < sum+1; i++)
+    if(dp[index][sum] != -1) return dp[index][sum];
+
+    if(arr[index] <= sum)
     {
-        dp[0][i] = 0;
-    }
-    for(int i = 0 ; i < n+1; i++)
+         dp[index][sum] = helper(arr,index-1,sum-arr[index],dp) + helper(arr,index-1,sum,dp);
+         return dp[index][sum]%mod;
+    }  
+    else if(arr[index] > sum)
     {
-        dp[i][0] = 1;
+        dp[index][sum] = helper(arr,index-1,sum,dp);
+        return dp[index][sum]%mod;
+        
     }
+    
+    return -1;
 
-
-    for(int i = 1 ; i < n+1; i++)
-    {
-        for(int j = 1; j < sum+1; j++)
-        {
-            if(arr[i-1] <= j)
-            {
-                dp[i][j] = dp[i-1][j-arr[i-1]] + dp[i-1][j];
-            }
-            else 
-            {
-                dp[i][j] = dp[i-1][j];
-            }
-        }
-    }
-
-    return dp[n][sum];
-;
 }
 
 
 int perfectSum(int arr[], int n, int sum)
 {
-    long long mod = 1e9+7;
-    vector<int> temp(sum+1);
-    vector<vector<int>> dp(n+1,temp);
     
+    vector<long long> temp(sum+1,-1);
+    vector<vector<long long>> dp(n+1,temp);
+    vector<long long> tempArr ;
 
-    return (topDown(arr,sum,dp,n))%mod;
+    for(int i = 0 ; i < n; i++)
+    {
+        if(arr[i]) tempArr.push_back(arr[i]);
+    }
+
+    long long setWithZeros = pow(2,(n-tempArr.size()));
+    setWithZeros = setWithZeros%mod;
+
+    helper(tempArr,tempArr.size()-1,sum,dp);
+
+    long long count = dp[(tempArr.size())-1][sum]*setWithZeros;
+
+    return (count)%mod;
 }
+
+
+
 
 int main()
 {
