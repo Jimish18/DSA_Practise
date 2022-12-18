@@ -14,7 +14,6 @@ vector<int> productExceptSelf(vector<int>& nums)
     vector<int> result;
     vector<int> preFix(n+1,1);
     vector<int> suFix(n+1,1);
-    // int 
 
     for(int i = 0 ; i < n ; i++)
     {
@@ -31,25 +30,21 @@ vector<int> productExceptSelf(vector<int>& nums)
     return result;
 }
 
-
+// O(n) time and O(1) space
 vector<int> productExceptSelf(vector<int>& nums) 
 {
     int n = nums.size();
-    vector<int> result;
-    vector<int> preFix(n+1,1);
-    vector<int> suFix(n+1,1);
-    // int 
+    vector<int> result(n,1);
+    int fromBegin = 1;
+    int fromLast = 1;
 
     for(int i = 0 ; i < n ; i++)
     {
-        preFix[i+1] = preFix[i]*nums[i];
-        suFix[(n+1)-i-2] = suFix[(n+1)-i-1]*nums[n-i-1];
-    }
+        result[i] *= fromBegin;
+        fromBegin *= nums[i];
 
-
-    for(int i = 0; i < n; i++)
-    {
-        result.push_back(preFix[i]*suFix[i+1]);
+        result[n-i-1] *= fromLast;
+        fromLast *= nums[n-i-1];
     }
 
     return result;
