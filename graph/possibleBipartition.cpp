@@ -7,64 +7,47 @@ Link - https://leetcode.com/problems/possible-bipartition/
 #include <bits/stdc++.h>
 using namespace std;
 
-bool groupCheck(unordered_set<int> &green,int x,int y)
-{
-    if((green.find(x) != green.end()) && (green.find(y) != green.end()))
-    {
+class Solution {
+    unordered_map<int,vector<int> > gr;
+    vector<int> vis;
+    vector<int> colo;
+public:
+    bool bfs(int u){
+        colo[u]=1;
+        queue<int> que;
+        que.push(u);
+        while(!que.empty()){
+            int i=que.front();
+            que.pop();
+            for(auto v:gr[i]){
+                if(colo[v]==-1){
+                    colo[v]=1-colo[i];
+                    que.push(v);
+                }
+                else if(colo[v]==colo[i]){
+                    return false;
+                }
+            }
+        }
         return true;
     }
-
-    return false;
-}
-
-bool groupOne(unordered_set<int> &green,int x)
-{
-    if(green.find(x) != green.end()) return true;
-    
-    return false;
-}
-
-bool possibleBipartition(int n, vector<vector<int>>& dislikes) 
-{
-    unordered_map<int,vector<int>> umap;
-    int N = dislikes.size();
-
-    for(int i = 0; i < N; i++)
-    {
-        umap[dislikes[i][0]].push_back(dislikes[i][1]);
-    }        
-
-    unordered_set<int> green;
-    unordered_set<int> red;
-    
-    for(auto x : umap)
-    {
-        for(auto i : x.second)
-        {
-            if(green.size() && red.size())
-            {
-                if(groupCheck(green,x.first,i) || groupCheck(red,x.first,i)) return false;
-            }
-            else if(groupOne(green,x.first))
-            {
-                red.insert(i);
-            }
-            else if(groupOne(red,x.first))
-            {
-                green.insert(i);
-            }
-            else
-            {
-                green.insert(x.first);
-                red.insert(i);
-            }
-
+    bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
+        for(auto d:dislikes){
+            gr[d[0]].push_back(d[1]);
+            gr[d[1]].push_back(d[0]);
         }
+        colo.resize(N+1,-1);
+        for(int i=1;i<=N;i++){
+            if(colo[i]==-1){
+                if(!bfs(i)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
+};
 
-    return true;
-
-}
 
 int main()
 {
