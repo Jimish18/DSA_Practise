@@ -48,6 +48,30 @@ vector<int> answerQueries(vector<int>& nums, vector<int>& queries)
     return result;
 }
 
+// Time - O(Mlog(N) + Nlog(N)) Space - O(M)
+vector<int> answerQueries(vector<int>& nums, vector<int>& queries) 
+{
+    int n = nums.size();
+    int m = queries.size();
+    vector<int> result;
+
+    sort(nums.begin(),nums.end());
+
+    
+    for(int i = 1; i < n; i++)
+    {
+        nums[i] += nums[i-1];
+    }
+
+    for(auto x : queries)
+    {
+        int index = upper_bound(nums.begin(),nums.end(),x)-nums.begin();
+        result.push_back(index);
+    }
+
+    return result;
+}
+
 int main()
 {
     vector<int> nums = {4,5,2,1};
