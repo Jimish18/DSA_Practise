@@ -46,10 +46,26 @@ using namespace std;
 //     return dp[n][n];
 // }
 
-int dfs(int prices[],vector<int> &length,int n,vector<int> &dp,int length)
+
+// Memoization
+int dfs(int prices[],vector<int> &length,int n,vector<vector<int>> &dp,int maxLen)
 {
-    
+    if(maxLen == 0 || n > maxLen) return 0;
+
+    if(dp[n][maxLen] != -1) return dp[n][maxLen];
+
+    if(length[n-1] <= maxLen)
+    {
+        return dp[n][maxLen] = max((prices[n-1] + dfs(prices,length,n,dp,maxLen-n)),dfs(prices,length,n+1,dp,maxLen));
+    }
+    // else
+    // {
+    //     return dp[n][maxLen] = dfs(prices,length,n+1,dp,maxLen);
+    // }
+
+    return dp[n][maxLen];
 }
+
 
 int cutRod(int price[], int n) 
 {
@@ -60,11 +76,9 @@ int cutRod(int price[], int n)
     for(int i = 0; i < n; i++)
     {
         length.push_back(i+1);
-    }
+    }    
 
-    dfs(price,n,dp,1);
-
-    return dp[n];
+    return dfs(price,length,1,dp,n);
 }
 
 
