@@ -6,35 +6,38 @@ Link - https://leetcode.com/problems/single-threaded-cpu/
 
 #include <bits/stdc++.h>
 using namespace std;
+typedef pair<int,int> pp;
 
 vector<int> getOrder(vector<vector<int>>& tasks) 
 {
-    priority_queue<vector<long long>,vector<vector<long long>>,greater<vector<long long>>> minH;
-    int n = tasks.size();
-    long long time = tasks[0][0];
+    priority_queue<pp,vector<pp>,greater<pp>> minH;
     vector<int> result;
-    int j = 1;
-
+    int n = tasks.size();
     sort(tasks.begin(),tasks.end());
-    minH.push({tasks[0][1],tasks[0][0],0});
-    
-    while(!minH.empty())
-    {
-        vector<long long> temp = minH.top();
-        minH.pop();
-        result.push_back(temp[2]);
-        time += temp[1];
+    long long time = tasks[0][0];
+    int i = 0;
 
-        while(tasks[j][1] <= time)
+    while(i < n || !minH.empty())
+    {
+        while(i < n && tasks[i][0] <= time)
         {
-            minH.push({tasks[j][1],tasks[j][0],j});
-            j++;
+            minH.push({tasks[i][1],i});
+            ++i;
         }
 
+        pp temp = minH.top();
+        minH.pop();
+        time += temp.first;
+        result.push_back(temp.second); 
+
+        if(i < n && time < tasks[i][0] && minH.empty())
+        {
+            time = tasks[i][0];
+        }       
     }
 
+    
     return result;
-
 }
 
 int main()
