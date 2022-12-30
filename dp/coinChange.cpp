@@ -7,33 +7,75 @@ Link - https://leetcode.com/problems/coin-change/
 #include <bits/stdc++.h>
 using namespace std;
 
-int dfs(vector<int>& coins, int amount, vector<vector<int>> &dp,int index)
-{
-    if(amount == 0) return 0;
-    if(index == coins.size()-1) return 0;
 
+// Memoization Method =>
 
-    if(dp[index][amount] != -1) return dp[index][amount];
+// int dfs(vector<int>& coins, int amount,int index,vector<vector<long long>> &dp)
+// {
+//     if(index == 0)
+//     {
+//         if(amount%coins[index] == 0) return amount/coins[index];
+//         else return INT_MAX;
+//     }
 
-    if(coins[index] <= amount)
-    {
-        return dp[index][amount] = min(1+dfs(coins,amount-coins[index],dp,index),dfs(coins,amount,dp,index+1));
-    }
-    else
-    {
-        return dp[index][amount] = dfs(coins,amount,dp,index+1);
-    }
+//     if(dp[index][amount] != -1) return dp[index][amount];
+    
+//     long long notTake = 0+dfs(coins,amount,index-1,dp);
+//     long long take = INT_MAX;
 
-    return dp[coins.size()][amount];
-}
+//     if(coins[index] <= amount)
+//     {
+//         take = 1 + dfs(coins,amount - coins[index],index,dp)%10000000000;
+//     }
 
-int coinChange(vector<int>& coins, int amount) 
+//     dp[index][amount] = min(take,notTake);
+
+//     return dp[index][amount];
+// }
+
+// int coinChange(vector<int>& coins, int amount) 
+// {
+//     vector<vector<long long>> dp(coins.size(),vector<long long> (amount+1,-1));
+//     long long result = dfs(coins,amount,coins.size()-1,dp);
+
+//     return (result > amount) ? -1 : result;
+// }
+
+// Tabulation Method
+int coinChange(vector<int>& coins, int amount)
 {
     int n = coins.size();
-    vector<int> temp(amount+1,-1);
-    vector<vector<int>> dp(n+1,temp);
+    vector<vector<int>> dp(n,vector<int> (amount+1,0));
 
-    return dfs(coins,amount,dp,0);
+    for(int i = 0; i <= amount; i++)
+    {
+        if(i%coins[0] == 0)
+        {
+            dp[0][i] = i/coins[0];
+        }
+        else
+        {
+            dp[0][i] = INT_MAX;
+        }
+    }
+
+    for(int i = 1 ; i < n; i++)
+    {
+        for(int j = 0; j <= amount; j++)
+        {
+            long long notTake = 0+dp[i-1][j];
+            long long take = INT_MAX;
+
+            if(coins[i] <= j)
+            {
+                take = 1 + dp[i][j-coins[i]]%10000000000;
+            }
+
+            dp[i][j] = min(take,notTake);
+        }
+    }
+
+    return dp[n-1][amount];
 }
 
 int main()
