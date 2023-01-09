@@ -10,6 +10,7 @@ using namespace std;
 int longestCommonSubstr (string S1, string S2, int n, int m)
 {
     vector<vector<int>> dp(n+1,vector<int> (m+1));    
+    int len = 0;
 
     for(int i = 0; i <= n; i++)
     {
@@ -19,23 +20,14 @@ int longestCommonSubstr (string S1, string S2, int n, int m)
             else if(S1[i-1] == S2[j-1])
             {
                 dp[i][j] = 1 + dp[i-1][j-1];
+                len = max(len,dp[i][j]);
             }
             else
             {
                 dp[i][j] = 0;
             }
         }
-    }
-
-    int len = 0;
-
-    for(int i = 0; i <= n; i++)
-    {
-        for(int j = 0; j <=m; j++)
-        {
-            len = max(len,dp[i][j]);
-        }
-    }
+    }    
     return len;
 }
 
