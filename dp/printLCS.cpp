@@ -35,33 +35,81 @@ using namespace std;
 //     return print(s1,s2,n,m,dp);
 // }
 
-// Tabulation
+// Tabulation (Approach 1)
+// string printLCS(string s1,string s2)
+// {
+//     int n = s1.length();
+//     int m = s2.length();
+//     vector<vector<string>> dp(n+1,vector<string> (m+1));
+
+//     for(int i = 0; i <= n ; i++)
+//     {
+//         for(int j = 0 ; j <= m ; j++)
+//         {
+//             if(i == 0 || j == 0) dp[i][j] = "";
+//             else if(s1[i-1] == s2[j-1])
+//             {
+//                 dp[i][j] = dp[i-1][j-1] + s1[i-1];
+//             }
+//             else
+//             {
+//                 string temp1 = dp[i][j-1];
+//                 string temp2 = dp[i-1][j];
+
+//                 dp[i][j] = temp1.length() > temp2.length() ? temp1 : temp2;
+//             }
+//         }
+//     }
+
+//     return dp[n][m];
+// }
+
+// Tabulation (Approach 2)
 string printLCS(string s1,string s2)
 {
     int n = s1.length();
     int m = s2.length();
-    vector<vector<string>> dp(n+1,vector<string> (m+1));
+    vector<vector<int>> dp(n+1,vector<int> (m+1));
+    string result = "";
 
     for(int i = 0; i <= n ; i++)
     {
         for(int j = 0 ; j <= m ; j++)
         {
-            if(i == 0 || j == 0) dp[i][j] = "";
+            if(i == 0 || j == 0) dp[i][j] = 0;
             else if(s1[i-1] == s2[j-1])
             {
-                dp[i][j] = dp[i-1][j-1] + s1[i-1];
+                dp[i][j] = 1 + dp[i-1][j-1] ;
             }
             else
             {
-                string temp1 = dp[i][j-1];
-                string temp2 = dp[i-1][j];
-
-                dp[i][j] = temp1.length() > temp2.length() ? temp1 : temp2;
+                dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
             }
         }
     }
 
-    return dp[n][m];
+    int i = n,j = m;
+
+    while(i != 0 && j != 0)
+    {
+        if(dp[i][j])
+        {
+            if(s1[i-1] == s2[j-1])
+            {
+                result.insert(result.begin(),s1[i-1]);
+                i--;j--;
+            }
+            else
+            {
+                if(dp[i][j-1] > dp[i-1][j]) j--;
+                else i--;
+                
+            }
+
+        }
+    }
+
+    return result;
 }
 
 int main()
