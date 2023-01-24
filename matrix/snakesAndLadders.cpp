@@ -7,35 +7,58 @@ Link - https://leetcode.com/problems/snakes-and-ladders/description/
 #include <bits/stdc++.h>
 using namespace std;
 
-int snakesAndLadders(vector<vector<int>> &board) {
-    int n = board.size(), lbl = 1;
-    vector<pair<int, int>> cells(n*n+1);
-    vector<int> columns(n);
-    iota(columns.begin(), columns.end(), 0);
-    for (int row = n - 1; row >= 0; row--) {
-        for (int column : columns) {
-            cells[lbl++] = {row, column};
-        }
-        reverse(columns.begin(), columns.end());
-    }
-    vector<int> dist(n*n+1, -1);
-    dist[1] = 0;
+pair<int,int> findCoordinates(int number , int n )
+{
+    int r = n - (number-1)/n  -1;
+    int c = (number-1)%n;
+
+    if(r%2 == n%2) return {r,n-1-c};
+    else return {r,c};
+}
+
+int snakesAndLadders(vector<vector<int>> &board) 
+{
+    int n = board.size();
+    vector<vector<bool>> visited(n , vector<bool> (n,false));
     queue<int> q;
+    int steps = 0;
+
     q.push(1);
-    while (!q.empty()) {
-        int curr = q.front();
-        q.pop();
-        for (int next = curr + 1; next <= min(curr+6, n*n); next++) {
-            auto [row, column] = cells[next];
-            int destination = board[row][column] != -1 ? board[row][column] : next;
-            if (dist[destination] == -1) {
-                dist[destination] = dist[curr] + 1;
-                q.push(destination);
+    visited[n-1][0] = true;
+
+    while(!q.empty())
+    {
+        int qn = q.size();
+
+        for(int i = 0; i < qn ; i++)
+        {
+            int number = q.front();
+            q.pop();
+
+            if(number == n*n) return steps;
+
+            for(int j = 1; j <= 6; j++)
+            {
+                if(number+j > n*n) break;
+
+                pair<int,int> coOrdinates = findCoordinates(number+j,n);
+                int x = coOrdinates.first;
+                int y = coOrdinates.second;
+
+                if(visited[x][y] == true) continue;
+
+                visited[x][y] = true;
+                if(board[x][y] == -1) q.push(number+j);
+                else q.push(board[x][y]);    
+
             }
         }
-    }
-    return dist[n*n];
+        steps++;
+    }  
+
+    return -1;  
 }
+
 int main()
 {
     vector<vector<int>> board = {{-1,-1},{-1,3}};
