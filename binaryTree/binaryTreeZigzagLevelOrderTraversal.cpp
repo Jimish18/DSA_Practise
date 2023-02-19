@@ -58,6 +58,7 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root)
         temp.clear();
         check = !check;
     }
+    
     return result;
     
 }
