@@ -31,6 +31,32 @@ int jump(vector<int>& nums)
     return jumps;
 }
 
+// Memoization
+int dfs(vector<int> &nums,int index,vector<int> &dp)
+{
+    if(index >= nums.size()-1) return 0;
+
+    if(dp[index] != -1) return dp[index];
+
+    int minMoves = INT_MAX;
+
+    for(int i = index+1; i <= index + nums[index]; i++)
+    {
+        minMoves = min(minMoves,1+dfs(nums,i,dp));
+    }
+
+    return dp[index] = minMoves;
+    
+}
+
+int jump(vector<int>& nums) 
+{
+    int n = nums.size();
+    vector<int> dp(n+1,-1);
+
+    return dfs(nums,0,dp);
+}
+
 int main()
 {
     return 0;
