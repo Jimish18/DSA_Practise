@@ -38,19 +38,33 @@ vector<int> nextLargerNodes(ListNode* head)
     vector<int> result;
 
     ListNode* newHead = reverseLinkedList(head);
-    long long maxValue = newHead->val;
+    stack<long long> st;
     ListNode* temp = newHead;
 
     while(temp)
     {
-        if(temp->val < maxValue)
+        if(!st.empty() && st.top() > temp->val)
         {
-            result.insert(result.begin(),maxValue);
+            result.insert(result.begin(),st.top());
+            st.push(temp->val);
         }
         else
         {
-            result.insert(result.begin(),0);
-            maxValue = temp->val;
+            while(!st.empty() && st.top() <= temp->val) 
+            {
+                st.pop();
+            }
+
+            if(st.empty())
+            {
+                result.insert(result.begin(),0);
+            } 
+            else
+            {
+                result.insert(result.begin(),st.top());
+            }
+
+            st.push(temp->val);
         }
 
         temp = temp->next;
