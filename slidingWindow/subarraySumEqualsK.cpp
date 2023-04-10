@@ -18,8 +18,8 @@ int subarraySum(vector<int>& nums, int k)
 
     for(int i = 0; i < n ; i++)
     {
-        sum += nums[i];
-
+        sum += nums[i];        
+        
         if(umap.find(sum-k) != umap.end())
         {
             count += umap[sum-k];
