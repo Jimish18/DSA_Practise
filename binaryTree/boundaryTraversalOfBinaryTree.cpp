@@ -49,7 +49,7 @@ void addLeftBoundary(TreeNode<int>* root,vector<int> &result)
 
 void addRightBoundary(TreeNode<int>* root,vector<int> &result)
 {
-    TreeNode<int>* temp = root->left;
+    TreeNode<int>* temp = root->right;
     vector<int> tempArray;
 
     while(temp)
