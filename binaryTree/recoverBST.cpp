@@ -17,34 +17,41 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {};
 };
 
-vector<long long> inorderList;
+TreeNode* first = NULL;
+TreeNode* prevPointer = NULL;
+TreeNode* middle = NULL;
+TreeNode* last = NULL;
 
 void inorder(TreeNode* root)
 {
     if(!root) return;
 
     inorder(root->left);
-    inorderList.push_back(root->val);
+
+    if(prevPointer && (prevPointer->val > root->val))
+    {
+        if(!first)
+        {
+            first = prevPointer;
+            middle = root;
+        }
+        else  last = root;
+    }
+
+    prevPointer = root;
     inorder(root->right);
-}
 
-void recover(TreeNode* &root,int &index)
-{
-    if(!root) return;
-
-    recover(root->left,index);
-    root->val = inorderList[index++];
-    recover(root->right,index);
 }
 
 void recoverTree(TreeNode* root) 
 {
+    prevPointer = new TreeNode(INT_MIN);
     inorder(root);
-    sort(inorderList.begin(),inorderList.end());
-    int index = 0;
-    recover(root,index);
 
+    if(first && last) swap(first->val,last->val);
+    else if(first && middle) swap(first->val , middle->val);
 }
+
 
 int main()
 {
