@@ -1,77 +1,51 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class node
+class ListNode
 {
     public:
     int data;
-    node* next;
+    ListNode* next;
 };
 
-void insertAtHead(node* &head,int val)
+int pairSum(ListNode* head) 
 {
-    node* n = new node();
-    n->data = val;
-    n->next = head;
-    head = n;
-}
-
-void insertAtTail(node* &head,int val)
-{
-    node* n = new node();
-    n->data = val;
-    n->next = NULL;
-    
-    node* temp = head;
-
-    if(head == NULL)
-    {
-        head = n;
-        return;
-    }
-
-    while(temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-
-    temp->next = n;
-}
-
-void printLnkdLst(node* head)
-{
-    node* temp = head;
-
-    while(temp != NULL)
-    {
-        cout<<temp->data<<"->";
-        temp = temp->next;
-    }
-
-    cout<<"NULL"<<endl;
-}
-
-int pairSum(node* head) 
-{
-    node* temp = head;
-    vector<int> v;
     int maxi = INT_MIN;
-    
-    while(temp != NULL)
+
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while(fast && fast->next && fast->next->next)
     {
-        v.push_back(temp->data);
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+
+    fast = slow->next;
+    slow->next = NULL;
+
+    ListNode* prev = NULL;
+    ListNode* cur = fast;
+    ListNode* next;
+
+    while(cur)
+    {
+        next = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = next;
+    }
+
+    ListNode* temp = prev;
+    slow = head;
+
+    while(temp && slow)
+    {
+        maxi = max(maxi,(temp->val + slow->val));
         temp = temp->next;
+        slow = slow->next;
     }
-    
-    int n = v.size();
-    for(int i = 0 ; i < (n/2) ; i++)
-    {
-        if((v[i]+v[n-(i+1)])>maxi)
-        {
-            maxi = v[i]+v[n-(i+1)];
-        }
-    }
-    
+
     return maxi;
 }
 
