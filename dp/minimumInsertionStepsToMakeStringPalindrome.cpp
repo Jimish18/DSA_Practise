@@ -7,35 +7,27 @@ Link - https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-pa
 #include <bits/stdc++.h>
 using namespace std;
 
-int dfs(string s, string t , int i, int j,vector<vector<int>> &dp)
-{
-    if(i < 0 || j < 0) return 0;
-
-    if(dp[i][j] != -1) return dp[i][j];
-
-    if(s[i] == t[j])
-    {
-        return dp[i][j] = 1 + dfs(s,t,i-1,j-1,dp);
-    }
-    else
-    {
-        return dp[i][j] = max(dfs(s,t,i,j-1,dp),dfs(s,t,i-1,j,dp));
-    }
-
-    return dp[i][j];
-}
-
-
 int minInsertions(string s) 
 {
     int n = s.length();
-    vector<<vector<int>> dp(n+1 , vector<int> (n+1,-1));
+    vector<vector<int>> dp(n+1 , vector<int> (n+1));
     string t = s;
     reverse(t.begin(),t.end());
 
-    int l = dfs(s , t , n-1,n-1,dp);
+    for(int i = 0 ;i <=n ;i++)
+    {
+        for(int j = 0 ; j <= n ; j++)
+        {
+            if(i == 0 || j== 0) dp[i][j] = 0;
+            else
+            {
+                if(s[i-1] == t[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
+                else dp[i][j] = max(dp[i][j-1],dp[i-1][j]);
+            }
+        }
+    }
 
-    return n-l;
+    return (n-dp[n][n]);
 
 }
 
