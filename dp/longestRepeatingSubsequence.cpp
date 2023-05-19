@@ -26,6 +26,27 @@ int LongestRepeatingSubsequence(string str)
             }
         }
     }
+
+    int i = n;
+    int j = n;
+    string ans = "";
+
+    while(i != 0 && j != 0)
+    {
+        if((str[i-1] == temp[j-1]) && i != j)
+        {
+            ans.insert(ans.begin(),str[i-1]);
+            i--;
+            j--;
+        }
+        else
+        {
+            if(dp[i-1][j] > dp[i][j-1]) i--;
+            else j--;
+        } 
+    }
+
+    cout<<ans<<endl;
     
     return dp[n][n];
 }
@@ -33,5 +54,7 @@ int LongestRepeatingSubsequence(string str)
 
 int main()
 {
+    string temp = "AABEBCDD";
+    cout<<LongestRepeatingSubsequence(temp)<<endl;
     return 0;
 }
