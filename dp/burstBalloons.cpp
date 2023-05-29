@@ -7,23 +7,32 @@ Link - https://leetcode.com/problems/burst-balloons/description/
 #include <bits/stdc++.h>
 using namespace std;
 
-int solve(vector<int> &nums,int prev , int cur ,int next)
+int solve(vector<int> &nums,int i,int j,vector<vector<int>> &dp)
 {   
-    int n = nums.size();
-    if(cur >= n) return 0;
-    if(cur < 0) return 0;
+    if(i > j) return 0;
 
-    int take1 = (((prev < 0) ? 1 : nums[prev])*(nums[cur])*((next >= n) ? 1 : nums[next])) + solve(nums,prev,cur+1,next+1);
-    int take2 = (((prev < 0) ? 1 : nums[prev])*(nums[cur])*((next >= n) ? 1 : nums[next])) + solve(nums,prev-1,cur-1,next)
+    if(dp[i][j] != -1) return dp[i][j];
 
-    int notTake = solve(nums,prev+1,cur+1,next+1);
+    int mx = INT_MIN;
 
-    return max(max(take1,take2),notTake);
+    for(int k = i; k <= j; k++)
+    {
+        int tempAns = solve(nums,i,k-1,dp) + solve(nums,k+1,j,dp) + (nums[i-1]*nums[k]*nums[j+1]) ;
+
+        mx = max(mx,tempAns);
+    }
+
+    return dp[i][j] = mx;
 }
 
 int maxCoins(vector<int>& nums) 
 {
-    return solve(nums,-1,0,1);
+    int n = nums.size();
+    nums.push_back(1);
+    nums.insert(nums.begin(),1);
+    vector<vector<int>> dp(n+2 , vector<int> (n+2, -1));
+
+    return solve(nums,1,n,dp);
 }
 
 int main()
