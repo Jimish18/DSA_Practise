@@ -26,34 +26,34 @@ int orangesRotting(vector<vector<int>>& grid)
             if(grid[i][j] == 2 && !visited[i][j])
             {
                 visited[i][j] = true;
-                q.push({i,j});
+                q.push({i,j});                
+            }
+        }
+    }
 
-                while(!q.empty())
+    while(!q.empty())
+    {
+        int nn = q.size();
+
+        time++;
+
+        for(int k = 0; k < nn; k++)
+        {
+            pair<int,int> temp = q.front();
+            q.pop();
+            int x = temp.first;
+            int y = temp.second;
+
+            for(int l = 0 ; l < 4; l++)
+            {
+                int newX = x + dr[l];
+                int newY = y + dc[l];
+
+                if(newX < n && newX >= 0 && newY < m && newY >= 0 && !visited[newX][newY] && grid[newX][newY] == 1)
                 {
-                    int nn = q.size();
-
-                    time++;
-
-                    for(int k = 0; k < nn; k++)
-                    {
-                        pair<int,int> temp = q.front();
-                        q.pop();
-                        int x = temp.first;
-                        int y = temp.second;
-
-                        for(int l = 0 ; l < 4; l++)
-                        {
-                            int newX = x + dr[l];
-                            int newY = y + dc[l];
-
-                            if(newX < n && newX >= 0 && newY < m && newY >= 0 && !visited[newX][newY] && grid[newX][newY] == 1)
-                            {
-                                visited[newX][newY] = true;
-                                grid[newX][newY] = 2;
-                                q.push({newX,newY});
-                            }
-                        }
-                    }
+                    visited[newX][newY] = true;
+                    grid[newX][newY] = 2;
+                    q.push({newX,newY});
                 }
             }
         }
@@ -67,7 +67,7 @@ int orangesRotting(vector<vector<int>>& grid)
         }
     }
     
-    return time;
+    return (time>0) ? time-1 : time;
 }
 
 int main()
