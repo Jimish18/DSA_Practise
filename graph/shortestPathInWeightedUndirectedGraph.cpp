@@ -50,15 +50,23 @@ vector<int> shortestPath(int n, int m, vector<vector<int>>& edges)
     vector<int> path;
     int node = n;
 
+    // while(parent[node] != node)
+    // {
+    //     path.push_back(node);
+    //     node = parent[node];
+    // }
+    
+    // path.push_back(1);
+    // reverse(path.begin(),path.end());
+
+
     while(parent[node] != node)
     {
-        path.push_back(node);
+        path.insert(path.begin(),node);
         node = parent[node];
     }
+    path.insert(path.begin(),1);
     
-    path.push_back(1);
-    reverse(path.begin(),path.end());
-
     return path;
 }
 
